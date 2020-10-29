@@ -7,6 +7,22 @@ li {
   list-style: none;
 }
 
+.link-style-none:link {
+  text-decoration: none;
+}
+
+.link-style-none:visited {
+  text-decoration: none;
+}
+
+.link-style-none:hover {
+  text-decoration: none;
+}
+
+.link-style-none:active {
+  text-decoration: none;
+}
+
 /* navbar */
 .sidebar {
   height: 100vh;
@@ -56,33 +72,33 @@ li {
 /* end of navbar */
 
 /* cards */
-  .card-common {
-    box-shadow: 1px 2px 5px #999;
-    transition: all 0.4s;
-  }
+.card-common {
+  box-shadow: 1px 2px 5px #999;
+  transition: all 0.4s;
+}
 
-  .card-common:hover {
-    box-sizing: 2px 3px 15px #999;
-    transform: translateY(-2px);
-  }
+.card-common:hover {
+  box-sizing: 2px 3px 15px #999;
+  transform: translateY(-2px);
+}
 
-  .card-common .card-body h6 {
-    font-size: 15px;
-  }
-
-  a.cards-refresh:link {
-    text-decoration: none;
-  }
-
-  a.cards-refresh:visited {
-    text-decoration: none;
-  }
-
-  a.cards-refresh:hover {
-    text-decoration: none;
-  }
-
-  a.cards-refresh:active {
-    text-decoration: none;
-  }
+.card-common .card-body h6 {
+  font-size: 15px;
+}
 /* end of cards */
+
+/* table of recent transaction */
+.table-recent-transaction th, td {
+  font-size: 15px;
+}
+
+.button-css {
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  th, td {
+    font-size: 14px;
+  }
+}
+/* end of table of recent transaction */

@@ -8,7 +8,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Admin Dashboard</title>
+    <title>Laundry Dong Dashboard</title>
   </head>
   <body>
 
@@ -74,7 +74,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-success" data-dismiss="modal">Tetap Disini</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Keluar</button>
+              <button type="button" class="btn btn-danger">Keluar</button>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                      <a href="#" class="text-secondary cards-refresh">
+                      <a href="#" class="text-secondary link-style-none">
                         <i class="fas fa-sync mr-3"></i>
                         <span>Refresh Now</span>
                       </a>
@@ -118,7 +118,7 @@
                       </div>
                     </div>
                     <div class="card-footer text-secondary">
-                      <a href="#" class="text-secondary cards-refresh">
+                      <a href="#" class="text-secondary link-style-none">
                         <i class="fas fa-sync mr-3"></i>
                         <span>Refresh Now</span>
                       </a>
@@ -137,7 +137,7 @@
                       </div>
                     </div>
                     <div class="card-footer text-secondary">
-                      <a href="#" class="text-secondary cards-refresh">
+                      <a href="#" class="text-secondary link-style-none">
                         <i class="fas fa-sync mr-3"></i>
                         <span>Refresh Now</span>
                       </a>
@@ -156,7 +156,7 @@
                       </div>
                     </div>
                     <div class="card-footer text-secondary">
-                      <a href="#" class="text-secondary cards-refresh">
+                      <a href="#" class="text-secondary link-style-none">
                         <i class="fas fa-sync mr-3"></i>
                         <span>Refresh Now</span>
                       </a>
@@ -169,6 +169,71 @@
         </div>
       </section>
     <!-- end of cards -->
+
+    <!-- tables -->
+      <div class="container-fluid bg-white">
+        <div class="row mb-5 py-3">
+          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+            <div class="row">
+              <div class="col-12 mb-4 mb-xl-0">
+                <h4 class="text-muted mb-2">Transaksi Baru</h4>
+                <table class="table table-hover bg-light table-recent-transaction">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Kontak</th>
+                      <th scope="col">Pesanan</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="text-muted">
+                      <th scope="row">1</th>
+                      <td>Udin1</td>
+                      <td>udin1@gmail.com</td>
+                      <td>Laundry + Setrika 1Kg</td>
+                      <td>Sudah Bayar</td>
+                    </tr>
+                    <tr class="text-muted">
+                      <th scope="row">2</th>
+                      <td>Udin2</td>
+                      <td>udin2@gmail.com</td>
+                      <td>Laundry + Setrika 1Kg</td>
+                      <td>Belum Bayar</td>
+                    </tr>
+                    <tr class="text-muted">
+                      <th scope="row">3</th>
+                      <td>Udin3</td>
+                      <td>udin3@gmail.com</td>
+                      <td>Laundry + Setrika 1Kg</td>
+                      <td>Sudah Bayar</td>
+                    </tr>
+                    <tr class="text-muted">
+                      <th scope="row">4</th>
+                      <td>Udin4</td>
+                      <td>udin4@gmail.com</td>
+                      <td>Laundry + Setrika 1Kg</td>
+                      <td>Sudah Bayar</td>
+                    </tr>
+                    <tr class="text-muted">
+                      <th scope="row">5</th>
+                      <td>Udin5</td>
+                      <td>udin5@gmail.com</td>
+                      <td>Laundry + Setrika 1Kg</td>
+                      <td>Sudah Bayar</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="text-left ml-2">
+                  <button type="button" class="btn btn-sm btn-primary"><a href="#" class="text-white link-style-none">Semua Transaksi</a></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- end of tables -->
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
