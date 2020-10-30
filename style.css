@@ -102,3 +102,19 @@ li {
   }
 }
 /* end of table of recent transaction */
+
+/* footer */
+.footer-font-size {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .delete-display-flex {
+    display: block !important;
+  }
+
+  .footer-center {
+    text-align: center;
+  }
+}
+/* end of footer */
