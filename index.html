@@ -171,62 +171,70 @@
     <!-- end of cards -->
 
     <!-- tables -->
-      <div class="container-fluid bg-white">
-        <div class="row mb-5 py-3">
+      <div class="container-fluid">
+        <div class="row mb-2 py-3">
           <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
             <div class="row">
-              <div class="col-12 mb-4 mb-xl-0">
-                <h4 class="text-muted mb-2">Transaksi Baru</h4>
-                <table class="table table-hover bg-light table-recent-transaction">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nama</th>
-                      <th scope="col">Kontak</th>
-                      <th scope="col">Pesanan</th>
-                      <th scope="col">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="text-muted">
-                      <th scope="row">1</th>
-                      <td>Udin1</td>
-                      <td>udin1@gmail.com</td>
-                      <td>Laundry + Setrika 1Kg</td>
-                      <td>Sudah Bayar</td>
-                    </tr>
-                    <tr class="text-muted">
-                      <th scope="row">2</th>
-                      <td>Udin2</td>
-                      <td>udin2@gmail.com</td>
-                      <td>Laundry + Setrika 1Kg</td>
-                      <td>Belum Bayar</td>
-                    </tr>
-                    <tr class="text-muted">
-                      <th scope="row">3</th>
-                      <td>Udin3</td>
-                      <td>udin3@gmail.com</td>
-                      <td>Laundry + Setrika 1Kg</td>
-                      <td>Sudah Bayar</td>
-                    </tr>
-                    <tr class="text-muted">
-                      <th scope="row">4</th>
-                      <td>Udin4</td>
-                      <td>udin4@gmail.com</td>
-                      <td>Laundry + Setrika 1Kg</td>
-                      <td>Sudah Bayar</td>
-                    </tr>
-                    <tr class="text-muted">
-                      <th scope="row">5</th>
-                      <td>Udin5</td>
-                      <td>udin5@gmail.com</td>
-                      <td>Laundry + Setrika 1Kg</td>
-                      <td>Sudah Bayar</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="text-left ml-2">
-                  <button type="button" class="btn btn-sm btn-primary"><a href="#" class="text-white link-style-none">Semua Transaksi</a></button>
+              <div class="col-12 mb-2">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3 ">
+                    <h6 class="m-0 font-weight-bold text-muted">Transaksi Baru</h6>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-hover bg-light table-recent-transaction">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nama</th>
+                          <th scope="col">Kontak</th>
+                          <th scope="col">Pesanan</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="text-muted">
+                          <th scope="row">1</th>
+                          <td>Udin1</td>
+                          <td>udin1@gmail.com</td>
+                          <td>Laundry + Setrika 1Kg</td>
+                          <td>Sudah Bayar</td>
+                        </tr>
+                        <tr class="text-muted">
+                          <th scope="row">2</th>
+                          <td>Udin2</td>
+                          <td>udin2@gmail.com</td>
+                          <td>Laundry + Setrika 1Kg</td>
+                          <td>Belum Bayar</td>
+                        </tr>
+                        <tr class="text-muted">
+                          <th scope="row">3</th>
+                          <td>Udin3</td>
+                          <td>udin3@gmail.com</td>
+                          <td>Laundry + Setrika 1Kg</td>
+                          <td>Sudah Bayar</td>
+                        </tr>
+                        <tr class="text-muted">
+                          <th scope="row">4</th>
+                          <td>Udin4</td>
+                          <td>udin4@gmail.com</td>
+                          <td>Laundry + Setrika 1Kg</td>
+                          <td>Sudah Bayar</td>
+                        </tr>
+                        <tr class="text-muted">
+                          <th scope="row">5</th>
+                          <td>Udin5</td>
+                          <td>udin5@gmail.com</td>
+                          <td>Laundry + Setrika 1Kg</td>
+                          <td>Sudah Bayar</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer">
+                    <div class="text-left ml-2">
+                      <button type="button" class="btn btn-sm btn-primary"><a href="#" class="text-white link-style-none">Semua Transaksi</a></button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -234,6 +242,29 @@
         </div>
       </div>
     <!-- end of tables -->
+
+    <!-- bar chart -->
+    <div class="container-fluid">
+      <div class="row mb-5 py-2">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row">
+            <div class="col-xl-8 col-lg-12 mb-4 mb-xl-0">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-muted">Pendapatan Bulanan</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-bar">
+                    <canvas id="myBarChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of bar chart -->
 
     <!-- footer -->
     <footer>
@@ -264,9 +295,12 @@
     </footer>
     <!-- end of footer -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    <!-- bar chart script -->
+    <script src="chart/bar-chart.js"></script>
   </body>
 </html>
