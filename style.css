@@ -87,21 +87,17 @@ li {
 }
 /* end of cards */
 
-/* table of recent transaction */
-.table-recent-transaction th, td {
+/* table*/
+.table-style-css th, td {
   font-size: 15px;
-}
-
-.button-css {
-  font-size: 13px;
 }
 
 @media (max-width: 768px) {
   th, td {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
-/* end of table of recent transaction */
+/* end of table */
 
 /* footer */
 .footer-font-size {
