@@ -93,8 +93,8 @@ li {
 }
 
 @media (max-width: 768px) {
-  th, td {
-    font-size: 13px;
+  .table-style-css th, td {
+    font-size: 13px !important;
   }
 }
 /* end of table */
