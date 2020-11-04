@@ -23,6 +23,11 @@ li {
   text-decoration: none;
 }
 
+.icon-in-field {
+  top: 11px;
+  right: 1.5rem;
+}
+
 /* navbar */
 .sidebar {
   height: 100vh;
@@ -57,6 +62,10 @@ li {
   background-color: #f66436;
   box-shadow: 2px 5px 10px #111;
   transform: translateY(-2px);
+}
+
+.top-navbar {
+  background-color: #343a40 !important;
 }
 
 @media (max-width: 768px) {
