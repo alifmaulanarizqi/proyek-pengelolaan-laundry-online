@@ -9,7 +9,7 @@ $(document).ready(function () {
 // pegawai.html - form pegawai - datepicker
 $(function(){
   $(".datepicker").datepicker({
-    format: 'yyyy-mm-dd',
+    format: 'dd-mm-yyyy',
     autoclose: true,
     todayHighlight: true,
   });

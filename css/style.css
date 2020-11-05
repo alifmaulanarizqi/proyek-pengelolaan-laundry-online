@@ -28,6 +28,11 @@ li {
   right: 1.5rem;
 }
 
+.form-button {
+  background-color: #2bbbad;
+  color: white;
+}
+
 /* navbar */
 .sidebar {
   height: 100vh;
