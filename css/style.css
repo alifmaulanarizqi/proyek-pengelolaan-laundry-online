@@ -7,6 +7,7 @@ li {
   list-style: none;
 }
 
+/* link style */
 .link-style-none:link {
   text-decoration: none;
 }
@@ -23,14 +24,27 @@ li {
   text-decoration: none;
 }
 
+/* add icon in input field */
 .icon-in-field {
   top: 11px;
   right: 1.5rem;
 }
 
+/* form button */
 .form-button {
   background-color: #2bbbad;
   color: white;
+}
+
+/* hide input number arrow */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* navbar */
