@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="registrasi.css">
+</head>
+<body>
+
+<h2>Pengaturan</h2>
+
+<div class="container">
+
+  <h3>Ubah Password</h3>
+
+  <form name="ubahpass" method="post" onsubmit="return false">
+
+  <div class="row">
+
+    <div class="col-25">
+      <label for="password">Password Anda :</label>
+    </div>
+
+    <div class="col-75">
+      <input type="password" id="password" name="password" placeholder="Password lama anda..">
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-25">
+      <label for="newPass">Password Baru :</label>
+    </div>
+
+    <div class="col-75">
+      <input type="password" id="newPass" name="newPass" placeholder="Password baru anda..">
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-25">
+      <label for="konPass">Konfirmasi Password Baru :</label>
+    </div>
+
+    <div class="col-75">
+      <input type="password" id="konPass" name="konPass" placeholder="Ulangi password baru anda..">
+    </div>
+
+  </div>
+  
+  <div class="row">
+    <input type="submit" value="Submit" onclick="return ubahPassword()" >
+  </div>
+
+  </form>
+
+  <p id="sesuai"></p>
+</div>
+
+<script type="text/javascript" src="tampildata.js"></script>
+
+</body>
+</html>
