@@ -29,309 +29,51 @@
                         <th class="th-sm font-weight-bold">Gender</th>
                         <th class="th-sm font-weight-bold">Start date</th>
                         <th class="th-sm font-weight-bold">Gaji</th>
+                        <th class="th-sm font-weight-bold">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Asep1</td>
-                        <td>Manager</td>
-                        <td>asep1@gmail.com</td>
-                        <td>61</td>
-                        <td>Pria</td>
-                        <td>2011/04/25</td>
-                        <td>Rp320,800</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Asep2</td>
-                        <td>Penyetrika</td>
-                        <td>asep2@gmail.com</td>
-                        <td>63</td>
-                        <td>Pria</td>
-                        <td>2011/07/25</td>
-                        <td>Rp170,750</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Asep3</td>
-                        <td>Kasir</td>
-                        <td>asep3@gmail.com</td>
-                        <td>66</td>
-                        <td>Pria</td>
-                        <td>2009/01/12</td>
-                        <td>Rp86,000</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Asep4</td>
-                        <td>Penyetrika</td>
-                        <td>asep4@gmail.com</td>
-                        <td>22</td>
-                        <td>Pria</td>
-                        <td>2012/03/29</td>
-                        <td>Rp433,060</td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>Asep5</td>
-                        <td>Manager</td>
-                        <td>asep5@gmail.com</td>
-                        <td>33</td>
-                        <td>Pria</td>
-                        <td>2008/11/28</td>
-                        <td>Rp162,700</td>
-                      </tr>
-                      <tr>
-                        <td>6</td>
-                        <td>Asep6</td>
-                        <td>Pencuci</td>
-                        <td>asep6@gmail.com</td>
-                        <td>61</td>
-                        <td>Pria</td>
-                        <td>2012/12/02</td>
-                        <td>Rp372,000</td>
-                      </tr>
-                      <tr>
-                        <td>7</td>
-                        <td>Asep7</td>
-                        <td>Kasir</td>
-                        <td>asep7@gmail.com</td>
-                        <td>59</td>
-                        <td>Pria</td>
-                        <td>2012/08/06</td>
-                        <td>Rp137,500</td>
-                      </tr>
-                      <tr>
-                        <td>8</td>
-                        <td>Asep8</td>
-                        <td>Pencuci</td>
-                        <td>asep8@gmail.com</td>
-                        <td>55</td>
-                        <td>Pria</td>
-                        <td>2010/10/14</td>
-                        <td>Rp327,900</td>
-                      </tr>
-                      <tr>
-                        <td>9</td>
-                        <td>Asep9</td>
-                        <td>Penyetrika</td>
-                        <td>asep9@gmail.com</td>
-                        <td>39</td>
-                        <td>Pria</td>
-                        <td>2009/09/15</td>
-                        <td>Rp205,500</td>
-                      </tr>
-                      <tr>
-                        <td>10</td>
-                        <td>Asep10</td>
-                        <td>Pencuci</td>
-                        <td>asep10@gmail.com</td>
-                        <td>23</td>
-                        <td>Pria</td>
-                        <td>2008/12/13</td>
-                        <td>Rp103,600</td>
-                      </tr>
-                      <tr>
-                        <td>11</td>
-                        <td>Asep11</td>
-                        <td>Admin</td>
-                        <td>asep11@gmail.com</td>
-                        <td>30</td>
-                        <td>Pria</td>
-                        <td>2008/12/19</td>
-                        <td>Rp90,560</td>
-                      </tr>
-                      <tr>
-                        <td>12</td>
-                        <td>Asep12</td>
-                        <td>Pencuci</td>
-                        <td>asep12@gmail.com</td>
-                        <td>22</td>
-                        <td>Pria</td>
-                        <td>2013/03/03</td>
-                        <td>Rp342,000</td>
-                      </tr>
-                      <tr>
-                        <td>13</td>
-                        <td>Asep13</td>
-                        <td>penjemur</td>
-                        <td>asep13@gmail.com</td>
-                        <td>36</td>
-                        <td>Pria</td>
-                        <td>2008/10/16</td>
-                        <td>Rp470,600</td>
-                      </tr>
-                      <tr>
-                        <td>14</td>
-                        <td>Asep14</td>
-                        <td>Pemasaran</td>
-                        <td>asep14@gmail.com</td>
-                        <td>43</td>
-                        <td>Pria</td>
-                        <td>2012/12/18</td>
-                        <td>Rp313,500</td>
-                      </tr>
-                      <tr>
-                        <td>15</td>
-                        <td>Asep15</td>
-                        <td>Penyetrika</td>
-                        <td>asep15@gmail.com</td>
-                        <td>19</td>
-                        <td>Pria</td>
-                        <td>2010/03/17</td>
-                        <td>Rp385,750</td>
-                      </tr>
-                      <tr>
-                        <td>16</td>
-                        <td>Asep16</td>
-                        <td>Penyetrika</td>
-                        <td>asep16@gmail.com</td>
-                        <td>66</td>
-                        <td>Pria</td>
-                        <td>2012/11/27</td>
-                        <td>Rp198,500</td>
-                      </tr>
-                      <tr>
-                        <td>17</td>
-                        <td>Asep17</td>
-                        <td>Pemasaran</td>
-                        <td>asep17@gmail.com</td>
-                        <td>64</td>
-                        <td>Pria</td>
-                        <td>2010/06/09</td>
-                        <td>Rp725,000</td>
-                      </tr>
-                      <tr>
-                        <td>18</td>
-                        <td>Asep18</td>
-                        <td>penjemur</td>
-                        <td>ase18p@gmail.com</td>
-                        <td>59</td>
-                        <td>Pria</td>
-                        <td>2009/04/10</td>
-                        <td>Rp237,500</td>
-                      </tr>
-                      <tr>
-                        <td>19</td>
-                        <td>Asep19</td>
-                        <td>Pencuci</td>
-                        <td>asep19@gmail.com</td>
-                        <td>41</td>
-                        <td>Pria</td>
-                        <td>2012/10/13</td>
-                        <td>Rp132,000</td>
-                      </tr>
-                      <tr>
-                        <td>20</td>
-                        <td>Asep20</td>
-                        <td>penjemur</td>
-                        <td>asep20@gmail.com</td>
-                        <td>35</td>
-                        <td>Pria</td>
-                        <td>2012/09/26</td>
-                        <td>Rp217,500</td>
-                      </tr>
-                      <tr>
-                        <td>21</td>
-                        <td>Asep21</td>
-                        <td>Manager</td>
-                        <td>asep21@gmail.com</td>
-                        <td>30</td>
-                        <td>Pria</td>
-                        <td>2011/09/03</td>
-                        <td>Rp345,000</td>
-                      </tr>
-                      <tr>
-                        <td>22</td>
-                        <td>Asep22</td>
-                        <td>Kasir</td>
-                        <td>asep22@gmail.com</td>
-                        <td>40</td>
-                        <td>Pria</td>
-                        <td>2009/06/25</td>
-                        <td>Rp675,000</td>
-                      </tr>
-                      <tr>
-                        <td>23</td>
-                        <td>Asep23</td>
-                        <td>Penyetrika</td>
-                        <td>asep23@gmail.com</td>
-                        <td>21</td>
-                        <td>Pria</td>
-                        <td>2011/12/12</td>
-                        <td>Rp106,450</td>
-                      </tr>
-                      <tr>
-                        <td>24</td>
-                        <td>Asep24</td>
-                        <td>Pencuci</td>
-                        <td>asep24@gmail.com</td>
-                        <td>23</td>
-                        <td>Pria</td>
-                        <td>2010/09/20</td>
-                        <td>Rp85,600</td>
-                      </tr>
-                      <tr>
-                        <td>25</td>
-                        <td>Asep25</td>
-                        <td>Pencuci</td>
-                        <td>asep25@gmail.com</td>
-                        <td>47</td>
-                        <td>Pria</td>
-                        <td>2009/10/09</td>
-                        <td>Rp1,200,000</td>
-                      </tr>
-                      <tr>
-                        <td>26</td>
-                        <td>Asep26</td>
-                        <td>Penyetrika</td>
-                        <td>asep26@gmail.com</td>
-                        <td>42</td>
-                        <td>Pria</td>
-                        <td>2010/12/22</td>
-                        <td>Rp92,575</td>
-                      </tr>
-                      <tr>
-                        <td>27</td>
-                        <td>Asep27</td>
-                        <td>penjemur</td>
-                        <td>asep27@gmail.com</td>
-                        <td>28</td>
-                        <td>Pria</td>
-                        <td>2010/11/14</td>
-                        <td>Rp357,650</td>
-                      </tr>
-                      <tr>
-                        <td>28</td>
-                        <td>Asep28</td>
-                        <td>Pencuci</td>
-                        <td>asep28@gmail.com</td>
-                        <td>28</td>
-                        <td>Pria</td>
-                        <td>2011/06/07</td>
-                        <td>Rp206,850</td>
-                      </tr>
-                      <tr>
-                        <td>29</td>
-                        <td>Asep29</td>
-                        <td>Pencuci</td>
-                        <td>asep29@gmail.com</td>
-                        <td>48</td>
-                        <td>Pria</td>
-                        <td>2010/03/11</td>
-                        <td>Rp850,000</td>
-                      </tr>
-                      <tr>
-                        <td>30</td>
-                        <td>Asep30</td>
-                        <td>Penyetrika</td>
-                        <td>asep30@gmail.com</td>
-                        <td>20</td>
-                        <td>Pria</td>
-                        <td>2011/08/14</td>
-                        <td>Rp163,000</td>
-                      </tr>
+
+                      <!-- display employeet -->
+                      <?php
+                        $query = "SELECT * FROM employees";
+                        $select_all_employees_query = mysqli_query($connection, $query);
+
+                        while ($row = mysqli_fetch_assoc($select_all_employees_query)) {
+                          $employee_id = $row["id"];
+                          $employee_name = $row["nama"];
+                          $employee_position = $row["posisi"];
+                          $employee_email = $row["email"];
+                          $employee_age = $row["umur"];
+                          $employee_gender = $row["gender"];
+                          $employee_start_date = $row["start_date"];
+                          $employee_salary = $row["gaji"];
+                          $employee_salary = number_format("$employee_salary");
+
+                          echo "<tr>
+                                  <td>$employee_id</td>
+                                  <td>$employee_name</td>
+                                  <td>$employee_position</td>
+                                  <td>$employee_email</td>
+                                  <td>$employee_age</td>
+                                  <td>$employee_gender</td>
+                                  <td>$employee_start_date</td>
+                                  <td>Rp $employee_salary</td>
+                                  <td><a href='pegawai.php?delete=$employee_id'>Delete</a></td>
+                                </tr>";
+                        }
+                      ?>
+
+                      <!-- delete employees -->
+                      <?php
+                        if(isset($_GET["delete"])) {
+                          $the_employee_id = $_GET["delete"];
+                          $query = "DELETE FROM employees WHERE id = '$the_employee_id'";
+                          $query_delete = mysqli_query($connection, $query);
+                          header("Location: pegawai.php");
+                        }
+                      ?>
+
                     </tbody>
                   </table>
                 </div>
@@ -344,6 +86,44 @@
     <!-- end of table -->
 
     <!-- form -->
+
+    <!-- set form field -->
+    <?php
+      if(isset($_POST["submit"])) {
+        $field_employee_name = $_POST["nama"];
+        $field_employee_email = $_POST["email"];
+        $field_employee_age = $_POST["umur"];
+        $field_employee_gender = $_POST["gender"];
+        $field_employee_posisi = $_POST["posisi"];
+        $field_employee_start_date = $_POST["start-date"];
+        $field_employee_start_date = date('Y-m-d', strtotime($field_employee_start_date));
+        $field_employee_salary = $_POST["gaji"];
+
+        // prevent sql injection
+        $field_employee_name = mysqli_real_escape_string($connection, $field_employee_name);
+        $field_employee_email = mysqli_real_escape_string($connection, $field_employee_email);
+        $field_employee_age = mysqli_real_escape_string($connection, $field_employee_age);
+        $field_employee_gender = mysqli_real_escape_string($connection, $field_employee_gender);
+        $field_employee_posisi = mysqli_real_escape_string($connection, $field_employee_posisi);
+        $field_employee_start_date = mysqli_real_escape_string($connection, $field_employee_start_date);
+        $field_employee_salary = mysqli_real_escape_string($connection, $field_employee_salary);
+      }
+    ?>
+
+    <!-- add employee -->
+    <?php
+    if(isset($_POST["submit"])) {
+      $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$field_employee_posisi', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
+
+      $result = mysqli_query($connection, $query_add_employee);
+      header("Location: pegawai.php");
+
+      if(!$result) {
+        die("Query FAILED " . mysqli_error($connection));
+      }
+    }
+    ?>
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
@@ -354,33 +134,33 @@
                   <h5 class="m-0 font-weight-bold text-muted">Tambah Pegawai</h5>
                 </div>
                 <div class="card-body pb-0">
-                  <form action="#!">
+                  <form action="" method="post">
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="nama">Nama</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama" required>
                         <i class="fas fa-user position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="email">Email</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email" required>
                         <i class="fas fa-envelope position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="umur">Umur</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="number" class="form-control" id="umur" name="umur" placeholder="Masukan umur">
+                        <input type="number" class="form-control" id="umur" name="umur" placeholder="Masukan umur" required>
                         <i class="fas fa-sort-numeric-up position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold">Gender</label>
                       <div class="col-sm-10">
-                        <select class="browser-default custom-select" name="gender">
-                          <option selected disabled>Pilih jenis kelamin...</option>
+                        <select class="browser-default custom-select" name="gender" required>
+                          <option selected disabled value="">Pilih jenis kelamin...</option>
                           <option value="pria">Pria</option>
                           <option value="wanita">Wanita</option>
                         </select>
@@ -389,8 +169,8 @@
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold">Posisi</label>
                       <div class="col-sm-10">
-                        <select class="browser-default custom-select" name="posisi">
-                          <option selected disabled>Pilih posisi...</option>
+                        <select class="browser-default custom-select" name="posisi" required>
+                          <option selected disabled value="">Pilih posisi...</option>
                           <option value="manager">Manager</option>
                           <option value="pemasaran">Pemasaran</option>
                           <option value="kasir">Kasir</option>
@@ -404,20 +184,20 @@
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold">Start Date</label>
                       <div class="input-group col-sm-10 position-relative date">
-                        <input placeholder="Pilih tanggal" type="text" class="form-control datepicker" name="start-date">
+                        <input placeholder="Pilih tanggal" type="text" class="form-control datepicker" name="start-date" required>
                         <i class="fas fa-calendar position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="gaji">Gaji Pegawai</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Masukan gaji">
+                        <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Masukan gaji" required>
                         <i class="fas fa-dollar-sign position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default form-button">Submit</button>
+                        <button type="submit" class="btn btn-default form-button" name="submit">Submit</button>
                       </div>
                     </div>
                   </form>

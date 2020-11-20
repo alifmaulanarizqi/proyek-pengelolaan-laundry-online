@@ -26,6 +26,7 @@
                         <th class="th-sm font-weight-bold">Nama</th>
                         <th class="th-sm font-weight-bold">Harga/Kilo</th>
                         <th class="th-sm font-weight-bold">Keterangan</th>
+                        <th class="th-sm font-weight-bold">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -40,13 +41,14 @@
                           $product_code = $row["kode_produk"];
                           $product_name = $row["nama"];
                           $product_price = $row["harga"];
+                          $product_price = number_format($product_price);
                           $product_info = $row["keterangan"];
 
                           echo "<tr>
                                   <td>$product_id</td>
                                   <td>$product_code</td>
                                   <td>$product_name</td>
-                                  <td>Rp$product_price</td>
+                                  <td>Rp $product_price</td>
                                   <td>$product_info</td>
                                   <td><a href='produk.php?delete=$product_id'>Delete</a></td>
                                 </tr>";

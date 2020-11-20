@@ -125,7 +125,7 @@ input[type=number] {
   font-size: 15px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .table-style-css th, td {
     font-size: 13px !important;
   }
