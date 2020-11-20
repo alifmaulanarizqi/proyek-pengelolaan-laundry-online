@@ -29,6 +29,8 @@
                       </tr>
                     </thead>
                     <tbody>
+
+                      <!-- display products -->
                       <?php
                         $query = "SELECT * FROM products";
                         $select_all_products_query = mysqli_query($connection, $query);
@@ -46,9 +48,21 @@
                                   <td>$product_name</td>
                                   <td>Rp$product_price</td>
                                   <td>$product_info</td>
+                                  <td><a href='produk.php?delete=$product_id'>Delete</a></td>
                                 </tr>";
                         }
                       ?>
+
+                      <!-- delete products -->
+                      <?php
+                        if(isset($_GET["delete"])) {
+                          $the_product_id = $_GET["delete"];
+                          $query = "DELETE FROM products WHERE id = '$the_product_id'";
+                          $delete_query = mysqli_query($connection, $query);
+                          header("Location: produk.php");
+                        }
+                      ?>
+
                     </tbody>
                   </table>
                 </div>
