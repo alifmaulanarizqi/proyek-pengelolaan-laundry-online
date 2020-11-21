@@ -3,6 +3,9 @@
 <!-- database connection -->
 <?php include "dbConnection.php"; ?>
 
+<!-- php function -->
+<?php include "function.php"; ?>
+
 <!DOCTYPE html>
 <html>
   <head>

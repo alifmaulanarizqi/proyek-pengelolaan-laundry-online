@@ -8,6 +8,13 @@
 <?php include "includes/modal.php" ?>
 
     <!-- cards -->
+
+    <!-- count number of employees -->
+    <?php
+      $total_employees = 0;
+      getTotalEmployees();
+    ?>
+
     <section>
       <div class="container-fluid">
         <div class="row">
@@ -25,7 +32,7 @@
                     </div>
                   </div>
                   <div class="card-footer">
-                    <a href="#" class="text-secondary link-style-none">
+                    <a href="index.php" class="text-secondary link-style-none">
                       <i class="fas fa-sync mr-3"></i>
                       <span>Refresh Now</span>
                     </a>
@@ -44,7 +51,7 @@
                     </div>
                   </div>
                   <div class="card-footer text-secondary">
-                    <a href="#" class="text-secondary link-style-none">
+                    <a href="index.php" class="text-secondary link-style-none">
                       <i class="fas fa-sync mr-3"></i>
                       <span>Refresh Now</span>
                     </a>
@@ -58,12 +65,12 @@
                       <i class="fas fa-user fa-3x text-info"></i>
                       <div class="text-right text-secondary">
                         <h6><strong>Total Karyawan</strong></h6>
-                        <h6>30 Orang</h6>
+                        <h6><?php echo $total_employees; ?> Orang</h6>
                       </div>
                     </div>
                   </div>
                   <div class="card-footer text-secondary">
-                    <a href="#" class="text-secondary link-style-none">
+                    <a href="index.php" class="text-secondary link-style-none">
                       <i class="fas fa-sync mr-3"></i>
                       <span>Refresh Now</span>
                     </a>
@@ -82,7 +89,7 @@
                     </div>
                   </div>
                   <div class="card-footer text-secondary">
-                    <a href="#" class="text-secondary link-style-none">
+                    <a href="index.php" class="text-secondary link-style-none">
                       <i class="fas fa-sync mr-3"></i>
                       <span>Refresh Now</span>
                     </a>

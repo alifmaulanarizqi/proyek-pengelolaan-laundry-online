@@ -1,6 +1,3 @@
-<!-- php function -->
-<?php include "includes/function.php"; ?>
-
 <!-- header -->
 <?php include "includes/header.php"; ?>
 
@@ -11,20 +8,19 @@
 <?php include "includes/modal.php" ?>
 
     <!-- form -->
+
+    <!-- get laundry name and display name -->
     <?php
-      $query = "SELECT * FROM user";
-      $user_query = mysqli_query($connection, $query);
-      $row = mysqli_fetch_assoc($user_query);
-      $laundry_name = $row["nama_laundry"];
-      $display_name = $row["nama_display"];
+      getLaundryAndDisplayName();
     ?>
 
-    <!-- pengaturan nama -->
+    <!-- name setting -->
     <?php
       if($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST["ganti-nama"])) {
           setDisplayAndLaundryName();
           updateDisplayAndLaundryName();
+          header("Location: pengaturan.php");
         }
       }
     ?>
@@ -69,7 +65,7 @@
       </div>
     </div>
 
-    <!-- pengaturan password -->
+    <!-- password setting -->
     <?php
       $old_password = "";
       $new_password = "";

@@ -33,36 +33,12 @@
 
                       <!-- display products -->
                       <?php
-                        $query = "SELECT * FROM products";
-                        $select_all_products_query = mysqli_query($connection, $query);
-
-                        while ($row = mysqli_fetch_assoc($select_all_products_query)) {
-                          $product_id = $row["id"];
-                          $product_code = $row["kode_produk"];
-                          $product_name = $row["nama"];
-                          $product_price = $row["harga"];
-                          $product_price = number_format($product_price);
-                          $product_info = $row["keterangan"];
-
-                          echo "<tr>
-                                  <td>$product_id</td>
-                                  <td>$product_code</td>
-                                  <td>$product_name</td>
-                                  <td>Rp $product_price</td>
-                                  <td>$product_info</td>
-                                  <td><a href='produk.php?delete=$product_id'>Delete</a></td>
-                                </tr>";
-                        }
+                        displayProducts();
                       ?>
 
                       <!-- delete products -->
                       <?php
-                        if(isset($_GET["delete"])) {
-                          $the_product_id = $_GET["delete"];
-                          $query = "DELETE FROM products WHERE id = '$the_product_id'";
-                          $delete_query = mysqli_query($connection, $query);
-                          header("Location: produk.php");
-                        }
+                        deleteProduct();
                       ?>
 
                     </tbody>
@@ -80,32 +56,17 @@
 
     <!-- set form field -->
     <?php
-    if(isset($_POST["submit"])) {
-      $field_product_code = $_POST["kode-produk"];
-      $field_product_name = $_POST["nama"];
-      $field_product_price = $_POST["harga"];
-      $field_product_info = $_POST["keterangan"];
+      $field_product_code = "";
+      $field_product_name = "";
+      $field_product_price = "";
+      $field_product_info = "";
 
-      // prevent sql injection
-      $field_product_code = mysqli_real_escape_string($connection, $field_product_code);
-      $field_product_name = mysqli_real_escape_string($connection, $field_product_name);
-      $field_product_price = mysqli_real_escape_string($connection, $field_product_price);
-      $field_product_info = mysqli_real_escape_string($connection, $field_product_info);
-    }
+      setFieldAddProduct();
     ?>
 
     <!-- add product -->
     <?php
-      if(isset($_POST["submit"])) {
-        $query_add_product = "INSERT INTO products(kode_produk, nama, harga, keterangan) VALUES ('$field_product_code', '$field_product_name', '$field_product_price', '$field_product_info')";
-
-        $result = mysqli_query($connection, $query_add_product);
-        header("Location: produk.php");
-
-        if(!$result) {
-          die("Query FAILED " . mysqli_error($connection));
-        }
-      }
+      addProduct();
     ?>
 
     <div class="container-fluid">
