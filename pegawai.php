@@ -36,42 +36,12 @@
 
                       <!-- display employeet -->
                       <?php
-                        $query = "SELECT * FROM employees";
-                        $select_all_employees_query = mysqli_query($connection, $query);
-
-                        while ($row = mysqli_fetch_assoc($select_all_employees_query)) {
-                          $employee_id = $row["id"];
-                          $employee_name = $row["nama"];
-                          $employee_position = $row["posisi"];
-                          $employee_email = $row["email"];
-                          $employee_age = $row["umur"];
-                          $employee_gender = $row["gender"];
-                          $employee_start_date = $row["start_date"];
-                          $employee_salary = $row["gaji"];
-                          $employee_salary = number_format("$employee_salary");
-
-                          echo "<tr>
-                                  <td>$employee_id</td>
-                                  <td>$employee_name</td>
-                                  <td>$employee_position</td>
-                                  <td>$employee_email</td>
-                                  <td>$employee_age</td>
-                                  <td>$employee_gender</td>
-                                  <td>$employee_start_date</td>
-                                  <td>Rp $employee_salary</td>
-                                  <td><a href='pegawai.php?delete=$employee_id'>Delete</a></td>
-                                </tr>";
-                        }
+                        displayEmployees();
                       ?>
 
                       <!-- delete employees -->
                       <?php
-                        if(isset($_GET["delete"])) {
-                          $the_employee_id = $_GET["delete"];
-                          $query = "DELETE FROM employees WHERE id = '$the_employee_id'";
-                          $query_delete = mysqli_query($connection, $query);
-                          header("Location: pegawai.php");
-                        }
+                        deleteEmployee();
                       ?>
 
                     </tbody>
@@ -89,39 +59,20 @@
 
     <!-- set form field -->
     <?php
-      if(isset($_POST["submit"])) {
-        $field_employee_name = $_POST["nama"];
-        $field_employee_email = $_POST["email"];
-        $field_employee_age = $_POST["umur"];
-        $field_employee_gender = $_POST["gender"];
-        $field_employee_posisi = $_POST["posisi"];
-        $field_employee_start_date = $_POST["start-date"];
-        $field_employee_start_date = date('Y-m-d', strtotime($field_employee_start_date));
-        $field_employee_salary = $_POST["gaji"];
+      $field_employee_name = "";
+      $field_employee_email = "";
+      $field_employee_age = "";
+      $field_employee_gender = "";
+      $field_employee_posisi = "";
+      $field_employee_start_date = "";
+      $field_employee_salary = "";
 
-        // prevent sql injection
-        $field_employee_name = mysqli_real_escape_string($connection, $field_employee_name);
-        $field_employee_email = mysqli_real_escape_string($connection, $field_employee_email);
-        $field_employee_age = mysqli_real_escape_string($connection, $field_employee_age);
-        $field_employee_gender = mysqli_real_escape_string($connection, $field_employee_gender);
-        $field_employee_posisi = mysqli_real_escape_string($connection, $field_employee_posisi);
-        $field_employee_start_date = mysqli_real_escape_string($connection, $field_employee_start_date);
-        $field_employee_salary = mysqli_real_escape_string($connection, $field_employee_salary);
-      }
+      setFieldAddEmployee();
     ?>
 
     <!-- add employee -->
     <?php
-    if(isset($_POST["submit"])) {
-      $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$field_employee_posisi', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
-
-      $result = mysqli_query($connection, $query_add_employee);
-      header("Location: pegawai.php");
-
-      if(!$result) {
-        die("Query FAILED " . mysqli_error($connection));
-      }
-    }
+      addEmployee();
     ?>
 
     <div class="container-fluid">
