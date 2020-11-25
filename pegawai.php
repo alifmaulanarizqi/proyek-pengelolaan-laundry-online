@@ -7,7 +7,7 @@
 <!-- modal -->
 <?php include "includes/modal.php" ?>
 
-    <!-- table -->
+    <!-- employees table -->
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
@@ -15,7 +15,7 @@
             <div class="col-sm-12 mb-0">
               <div class="card shadow">
                 <div class="card-header py-3">
-                  <h5 class="m-0 font-weight-bold text-muted">Data Pegawai</h5>
+                  <h6 class="m-0 font-weight-bold text-muted">Data Pegawai</h6>
                 </div>
                 <div class="card-body pb-0">
                   <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">
@@ -23,7 +23,7 @@
                       <tr>
                         <th class="font-weight-bold">ID</th>
                         <th class="th-sm font-weight-bold">Nama</th>
-                        <th class="th-sm font-weight-bold">Posisi</th>
+                        <th class="th-sm font-weight-bold">Id_posisi</th>
                         <th class="th-sm font-weight-bold">Email</th>
                         <th class="th-sm font-weight-bold">Umur</th>
                         <th class="th-sm font-weight-bold">Gender</th>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <!-- end of table -->
+    <!-- end of employees table -->
 
     <!-- form -->
 
@@ -82,7 +82,7 @@
             <div class="col-sm-12 mb-0">
               <div class="card shadow">
                 <div class="card-header py-3">
-                  <h5 class="m-0 font-weight-bold text-muted">Tambah Pegawai</h5>
+                  <h6 class="m-0 font-weight-bold text-muted">Tambah Pegawai</h6>
                 </div>
                 <div class="card-body pb-0">
                   <form action="" method="post">
@@ -122,13 +122,9 @@
                       <div class="col-sm-10">
                         <select class="browser-default custom-select" name="posisi" required>
                           <option selected disabled value="">Pilih posisi...</option>
-                          <option value="manager">Manager</option>
-                          <option value="pemasaran">Pemasaran</option>
-                          <option value="kasir">Kasir</option>
-                          <option value="pencuci">Pencuci</option>
-                          <option value="admin">Admin</option>
-                          <option value="penjemur">Penjemur</option>
-                          <option value="penyetrika">Penyetrika</option>
+                          <?php
+                            displayPositionList();
+                          ?>
                         </select>
                       </div>
                     </div>
@@ -148,13 +144,97 @@
                     </div>
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default form-button" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-default form-button" name="tambah-pegawai">Submit</button>
                       </div>
                     </div>
                   </form>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of form -->
+
+    <!-- form -->
+
+    <!-- set form field -->
+    <?php
+      $field_position_name = "";
+
+      setFieldAddPosition();
+    ?>
+
+    <!-- add employee -->
+    <?php
+      $position_err = "";
+      addPosition();
+    ?>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row mb-5">
+            <div class="col-xl-6 col-lg-12 col-sm-12 mb-0">
+              <div class="card shadow">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-muted">Tambah Posisi</h6>
+                </div>
+                <div class="card-body pb-0 col-sm-12">
+                  <form action="" method="post">
+                    <div class="form-group mb-7">
+                      <label class="control-label col-sm-12 font-weight-bold" for="nama">Nama</label>
+                      <div class="col-sm-12 position-relative">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama" required><span class="error"><?php echo $position_err; ?></span>
+                        <i class="fas fa-user position-absolute text-muted icon-in-field" tabindex=0></i>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default form-button" name="tambah-posisi">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+    <!-- end of form -->
+
+    <!-- position table -->
+            <div class="col-xl-6 col-lg-12 col-sm-12 mb-0 mt-xl-0 mt-5">
+              <div class="card shadow">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-muted">Data Posisi</h6>
+                </div>
+                <div class="card-body pb-0 col-sm-12">
+                  <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm font-weight-bold">ID</th>
+                        <th class="th-sm font-weight-bold">Nama</th>
+                        <th class="th-sm font-weight-bold">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- display employeet -->
+                      <?php
+                        displayPositions();
+                      ?>
+
+                      <!-- delete employees -->
+                      <?php
+                        deletePosition();
+                      ?>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+    <!-- end of position table -->
+
           </div>
         </div>
       </div>

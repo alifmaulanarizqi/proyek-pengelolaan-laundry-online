@@ -25,6 +25,7 @@
                         <th class="th-sm font-weight-bold">Nama</th>
                         <th class="th-sm font-weight-bold">Jml Transaksi</th>
                         <th class="th-sm font-weight-bold">Email</th>
+                        <th class="th-sm font-weight-bold">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -32,6 +33,11 @@
                       <!-- display customers -->
                       <?php
                         displayCustomers();
+                      ?>
+
+                      <!-- delete customer -->
+                      <?php
+                        deleteCustomer();
                       ?>
 
                     </tbody>

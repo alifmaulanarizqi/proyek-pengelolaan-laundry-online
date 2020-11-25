@@ -21,13 +21,13 @@
                   <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">
                     <thead>
                       <tr>
-                        <th class="font-weight-bold">Id</th>
-                        <th class="font-weight-bold">Product</th>
-                        <th class="font-weight-bold">Nama_cust</th>
-                        <th class="font-weight-bold">Email_cust</th>
+                        <th class="font-weight-bold">ID</th>
+                        <th class="font-weight-bold">Id_prod</th>
+                        <th class="font-weight-bold">Id_cust</th>
                         <th class="font-weight-bold">Berat</th>
                         <th class="font-weight-bold">Tanggal</th>
                         <th class="font-weight-bold">Harga</th>
+                        <th class="font-weight-bold">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -35,6 +35,11 @@
                       <!-- display transactions -->
                       <?php
                         displayTransactions();
+                      ?>
+
+                      <!-- delete transaction -->
+                      <?php
+                        deleteTransaction();
                       ?>
 
                     </tbody>
@@ -80,21 +85,21 @@
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="nama">Nama</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama" required>
                         <i class="fas fa-user position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="email">Email</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email" required>
                         <i class="fas fa-envelope position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold">Product</label>
                       <div class="col-sm-10">
-                        <select class="browser-default custom-select" name="product">
+                        <select class="browser-default custom-select" name="product" required>
                           <option selected disabled>Pilih product...</option>
                           <?php
                             displayProductList();
@@ -105,14 +110,14 @@
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold" for="berat">Berat(Kg)</label>
                       <div class="col-sm-10 position-relative">
-                        <input type="number" class="form-control" id="berat" name="berat" placeholder="Masukan berat">
+                        <input type="number" class="form-control" id="berat" name="berat" placeholder="Masukan berat" required>
                         <i class="fas fa-weight position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>
                     <div class="form-group mb-4">
                       <label class="control-label col-sm-5 font-weight-bold">Tanggal</label>
                       <div class="input-group col-sm-10 position-relative date">
-                        <input placeholder="Pilih tanggal" type="text" class="form-control datepicker" name="tanggal-transaksi">
+                        <input placeholder="Pilih tanggal" type="text" class="form-control datepicker" name="tanggal-transaksi" required>
                         <i class="fas fa-calendar position-absolute text-muted icon-in-field" tabindex=0></i>
                       </div>
                     </div>

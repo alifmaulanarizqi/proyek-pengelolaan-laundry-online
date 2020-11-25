@@ -15,6 +15,12 @@
       getTotalEmployees();
     ?>
 
+    <!-- count number of customers -->
+    <?php
+      $total_customers = 0;
+      getTotalCustomers();
+    ?>
+
     <section>
       <div class="container-fluid">
         <div class="row">
@@ -84,7 +90,7 @@
                       <i class="fas fa-users fa-3x text-warning"></i>
                       <div class="text-right text-secondary">
                         <h6><strong>Total Pelanggan</strong></h6>
-                        <h6>30 Orang</h6>
+                        <h6><?php echo $total_customers ?> Orang</h6>
                       </div>
                     </div>
                   </div>
@@ -117,55 +123,21 @@
                   <table class="table table-striped table-bordered table-style-css">
                     <thead class="thead-dark">
                       <tr>
-                        <th class="font-weight-bold">Sale</th>
+                        <th class="font-weight-bold">ID</th>
                         <th class="font-weight-bold">Product</th>
-                        <th class="font-weight-bold">Customer</th>
+                        <th class="font-weight-bold">Id_cust</th>
                         <th class="font-weight-bold">Berat</th>
                         <th class="font-weight-bold">Tanggal</th>
                         <th class="font-weight-bold">Harga</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="text-muted">
-                        <td>0300030</td>
-                        <td>LNDRY3</td>
-                        <td>001030</td>
-                        <td>3</td>
-                        <td>30/11/2020</td>
-                        <td>Rp163,000</td>
-                      </tr>
-                      <tr class="text-muted">
-                        <td>0290029</td>
-                        <td>LNDRY3</td>
-                        <td>001029</td>
-                        <td>2</td>
-                        <td>29/11/2020</td>
-                        <td>Rp850,000</td>
-                      </tr>
-                      <tr class="text-muted">
-                        <td>0280028</td>
-                        <td>LNDRY3</td>
-                        <td>001028</td>
-                        <td>1</td>
-                        <td>28/11/2020</td>
-                        <td>Rp206,850</td>
-                      </tr>
-                      <tr class="text-muted">
-                        <td>0270027</td>
-                        <td>LNDRY3</td>
-                        <td>001027</td>
-                        <td>1</td>
-                        <td>27/11/2020</td>
-                        <td>Rp357,650</td>
-                      </tr>
-                      <tr class="text-muted">
-                        <td>0260026</td>
-                        <td>LNDRY3</td>
-                        <td>001026</td>
-                        <td>3</td>
-                        <td>26/11/2020</td>
-                        <td>Rp92,575</td>
-                      </tr>
+
+                      <!-- display recent transactions -->
+                      <?php
+                        displayRecentTransactions();
+                      ?>
+
                     </tbody>
                   </table>
                 </div>

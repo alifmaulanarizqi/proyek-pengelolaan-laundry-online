@@ -15,6 +15,45 @@
       $total_employees++;
     }
   }
+
+  // count number of customers
+  function getTotalCustomers() {
+    global $connection; global $total_customers;
+
+    $query = "SELECT * FROM customers";
+    $select_all_customers_query = mysqli_query($connection, $query);
+
+    while (mysqli_fetch_assoc($select_all_customers_query)) {
+      $total_customers++;
+    }
+  }
+
+  // display recent transactions
+  function displayRecentTransactions() {
+    global $connection;
+
+    $query = "SELECT * FROM transactions ORDER BY id DESC LIMIT 5";
+    $select_the_five_last_query = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($select_the_five_last_query)) {
+      $transaction_id = $row["id"];
+      $transaction_product = $row["id_produk"];
+      $customer_id = $row["id_customer"];
+      $laundry_weight = $row["berat_laundry"];
+      $transaction_date = $row["tanggal"];
+      $transaction_price = $row["harga"];
+      $transaction_price = number_format($transaction_price);
+
+      echo "<tr>
+              <td>$transaction_id</td>
+              <td>$transaction_product</td>
+              <td>$customer_id</td>
+              <td>$laundry_weight</td>
+              <td>$transaction_date</td>
+              <td>Rp $transaction_price</td>
+            </tr>";
+    }
+  }
 // end of index.php
 
 
@@ -194,7 +233,6 @@
 
     while ($row = mysqli_fetch_assoc($select_all_products_query)) {
       $product_id = $row["id"];
-      $product_code = $row["kode_produk"];
       $product_name = $row["nama"];
       $product_price = $row["harga"];
       $product_price = number_format($product_price);
@@ -202,7 +240,6 @@
 
       echo "<tr>
               <td>$product_id</td>
-              <td>$product_code</td>
               <td>$product_name</td>
               <td>Rp $product_price</td>
               <td>$product_info</td>
@@ -236,9 +273,8 @@
 
     while ($row = mysqli_fetch_assoc($select_all_transactions_query)) {
       $transaction_id = $row["id"];
-      $transaction_product = $row["produk"];
-      $customer_name = $row["nama_customer"];
-      $customer_email = $row["email_customer"];
+      $transaction_product = $row["id_produk"];
+      $customer_id = $row["id_customer"];
       $laundry_weight = $row["berat_laundry"];
       $transaction_date = $row["tanggal"];
       $transaction_price = $row["harga"];
@@ -247,12 +283,40 @@
       echo "<tr>
               <td>$transaction_id</td>
               <td>$transaction_product</td>
-              <td>$customer_name</td>
-              <td>$customer_email</td>
+              <td>$customer_id</td>
               <td>$laundry_weight</td>
               <td>$transaction_date</td>
               <td>Rp $transaction_price</td>
+              <td><a href='transaksi.php?delete=$transaction_id&cust_id=$customer_id'>Delete</a></td>
             </tr>";
+    }
+  }
+
+  // delete transaction
+  function deleteTransaction() {
+    global $connection;
+
+    if(isset($_GET["delete"])) {
+      $the_transaction_id = $_GET["delete"];
+      $the_customer_id = $_GET["cust_id"];
+
+      $query = "SELECT * FROM customers WHERE id='$the_customer_id'";
+      $customer_total_transaction_query = mysqli_query($connection, $query);
+
+      $row = mysqli_fetch_assoc($customer_total_transaction_query);
+      $customer_total_transaction = $row["jml_transaksi"];
+
+      if($customer_total_transaction == 1) {
+        $query = "DELETE FROM customers WHERE id='$the_customer_id'";
+        $result = mysqli_query($connection, $query);
+      } else {
+        $query = "UPDATE customers SET jml_transaksi = $customer_total_transaction-1 WHERE id='$the_customer_id'";
+        $result = mysqli_query($connection, $query);
+      }
+
+      $query = "DELETE FROM transactions WHERE id = '$the_transaction_id'";
+      $result = mysqli_query($connection, $query);
+      header("Location: transaksi.php");
     }
   }
 
@@ -264,9 +328,9 @@
     $select_all_products_query = mysqli_query($connection, $query);
 
     while ($row = mysqli_fetch_assoc($select_all_products_query)) {
-      $kode_produk = $row["kode_produk"];
+      $id_produk = $row["id"];
 
-      echo "<option>$kode_produk</option>";
+      echo "<option>$id_produk</option>";
     }
   }
 
@@ -300,7 +364,7 @@
       $select_all_employees_query = mysqli_query($connection, $query);
 
       while ($row = mysqli_fetch_assoc($select_all_employees_query)) {
-        $kode_produk = $row["kode_produk"];
+        $kode_produk = $row["id"];
         if($kode_produk == $field_product) {
           $harga_produk = $row["harga"];
           break;
@@ -309,8 +373,14 @@
 
       addCustomer();
 
+      $query = "SELECT id FROM customers WHERE nama='$field_customer_name' AND email='$field_customer_email'";
+      $select_id_customers_query = mysqli_query($connection, $query);
+
+      $row = mysqli_fetch_assoc($select_id_customers_query);
+      $customer_id = $row["id"];
+
       $harga_produk *= $field_laundry_weight;
-      $query_add_transaction = "INSERT INTO transactions(produk, nama_customer, email_customer, berat_laundry, tanggal, harga) VALUES ('$field_product', '$field_customer_name', '$field_customer_email', '$field_laundry_weight', '$field_date', '$harga_produk')";
+      $query_add_transaction = "INSERT INTO transactions(id_produk, id_customer, berat_laundry, tanggal, harga) VALUES ('$field_product', '$customer_id', '$field_laundry_weight', '$field_date', '$harga_produk')";
 
       $result = mysqli_query($connection, $query_add_transaction);
       header("Location: transaksi.php");
@@ -326,19 +396,21 @@
   function addCustomer() {
     global $field_customer_name; global $field_customer_email; global $connection;
 
-    $query = "SELECT * FROM transactions";
-    $select_all_transactions_query = mysqli_query($connection, $query);
+    $query2 = "SELECT id FROM customers WHERE nama='$field_customer_name' AND email='$field_customer_email'";
+    $select_id_customers_query = mysqli_query($connection, $query2);
+    $row = mysqli_fetch_assoc($select_id_customers_query);
+    $the_customer_id = $row["id"];
 
-    if(mysqli_num_rows($select_all_transactions_query) > 0) {
-      $dataExist = 0;
-      while ($row = mysqli_fetch_assoc($select_all_transactions_query)) {
-        $nama_customer = $row["nama_customer"];
-        $email = $row["email_customer"];
+    $count_query = "SELECT COUNT(*) AS banyak_data FROM transactions";
+    $select_count_query = mysqli_query($connection, $count_query);
+    $row = mysqli_fetch_assoc($select_count_query);
+    $manyRows = $row["banyak_data"];
 
-        if($nama_customer == $field_customer_name && $email == $field_customer_email) {
-          $dataExist++;
-        }
-      }
+    if($manyRows > 0) {
+      $count_query = "SELECT COUNT(*) AS banyak_data FROM transactions WHERE id_customer='$the_customer_id'";
+      $select_count_query = mysqli_query($connection, $count_query);
+      $row = mysqli_fetch_assoc($select_count_query);
+      $dataExist = $row["banyak_data"];
 
       if($dataExist == 0) {
         $query_add_customer = "INSERT INTO customers(nama, jml_transaksi, email) VALUES ('$field_customer_name', '1', '$field_customer_email')";
@@ -350,9 +422,10 @@
           $nama_customer = $row["nama"];
           $email = $row["email"];
           $id_customer = $row["id"];
+          $jumlah_transaksi = $row["jml_transaksi"];
 
           if($nama_customer == $field_customer_name && $email == $field_customer_email) {
-            $query_add_customer = "UPDATE customers SET jml_transaksi = $dataExist+1 WHERE id = '$id_customer'";
+            $query_add_customer = "UPDATE customers SET jml_transaksi = $jumlah_transaksi+1 WHERE id = '$id_customer'";
             break;
           }
         }
@@ -368,7 +441,11 @@
     }
 
   }
+// end of transaksi.php
 
+
+
+// pelanggan.php
   // display customers
   function displayCustomers() {
     global $connection;
@@ -387,10 +464,27 @@
               <td>$customer_name</td>
               <td>$customer_total_transaction</td>
               <td>$customer_email</td>
+              <td><a href='pelanggan.php?delete=$customer_id'>Delete</a></td>
             </tr>";
     }
   }
-// end of transaksi.php
+
+  // delete customer
+  function deleteCustomer() {
+    global $connection;
+
+    if(isset($_GET["delete"])) {
+      $the_customer_id = $_GET["delete"];
+
+      $query = "DELETE FROM transactions WHERE id_customer ='$the_customer_id'";
+      $query_delete = mysqli_query($connection, $query);
+
+      $query = "DELETE FROM customers WHERE id = '$the_customer_id'";
+      $query_delete = mysqli_query($connection, $query);
+      header("Location: pelanggan.php");
+    }
+  }
+// end of pelanggan.php
 
 
 
@@ -400,7 +494,7 @@
     global $field_employee_name; global $field_employee_email; global $field_employee_age; global $field_employee_gender; global $field_employee_posisi;
     global $field_employee_start_date; global $field_employee_salary; global $connection;
 
-    if(isset($_POST["submit"])) {
+    if(isset($_POST["tambah-pegawai"])) {
       $field_employee_name = $_POST["nama"];
       $field_employee_email = $_POST["email"];
       $field_employee_age = $_POST["umur"];
@@ -426,8 +520,13 @@
     global $field_employee_name; global $field_employee_email; global $field_employee_age; global $field_employee_gender; global $field_employee_posisi;
     global $field_employee_start_date; global $field_employee_salary; global $connection;
 
-    if(isset($_POST["submit"])) {
-      $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$field_employee_posisi', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
+    if(isset($_POST["tambah-pegawai"])) {
+      $query = "SELECT id FROM positions WHERE posisi='$field_employee_posisi'";
+      $select_position_id_query = mysqli_query($connection, $query);
+      $row = mysqli_fetch_assoc($select_position_id_query);
+      $position_id = $row["id"];
+
+      $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
 
       $result = mysqli_query($connection, $query_add_employee);
       header("Location: pegawai.php");
@@ -465,8 +564,22 @@
               <td>$employee_gender</td>
               <td>$employee_start_date</td>
               <td>Rp $employee_salary</td>
-              <td><a href='pegawai.php?delete=$employee_id'>Delete</a></td>
+              <td><a href='pegawai.php?delete-pegawai=$employee_id'>Delete</a></td>
             </tr>";
+    }
+  }
+
+  // link product field with database
+  function displayPositionList() {
+    global $connection;
+
+    $query = "SELECT * FROM positions";
+    $select_all_positions_query = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($select_all_positions_query)) {
+      $nama_posisi = $row["posisi"];
+
+      echo "<option value='<?php echo $nama_posisi; ?>'>$nama_posisi</option>";
     }
   }
 
@@ -474,9 +587,78 @@
   function deleteEmployee() {
     global $connection;
 
-    if(isset($_GET["delete"])) {
-      $the_employee_id = $_GET["delete"];
+    if(isset($_GET["delete-pegawai"])) {
+      $the_employee_id = $_GET["delete-pegawai"];
       $query = "DELETE FROM employees WHERE id = '$the_employee_id'";
+      $query_delete = mysqli_query($connection, $query);
+      header("Location: pegawai.php");
+    }
+  }
+
+  // set form field
+  function setFieldAddPosition() {
+    global $field_position_name; global $connection;
+
+    if(isset($_POST["tambah-posisi"])) {
+      $field_position_name = $_POST["nama"];
+    }
+
+    // prevent sql injection
+    $field_position_name = mysqli_real_escape_string($connection, $field_position_name);
+  }
+
+  // add position
+  function addPosition() {
+    global $field_position_name; global $position_err; global $connection;
+
+    if(isset($_POST["tambah-posisi"])) {
+      $count_query = "SELECT COUNT(*) AS banyak_data FROM positions WHERE posisi='$field_position_name'";
+      $select_count_query = mysqli_query($connection, $count_query);
+      $row = mysqli_fetch_assoc($select_count_query);
+      $manyRows = $row["banyak_data"];
+
+      if($manyRows == 0) {
+        $query_add_position = "INSERT INTO positions(posisi) VALUES ('$field_position_name')";
+
+        $result = mysqli_query($connection, $query_add_position);
+        header("Location: pegawai.php");
+
+        if(!$result) {
+          die("Query FAILED " . mysqli_error($connection));
+        }
+      } else {
+        $position_err = "Posisi $field_position_name sudah terdaftar";
+      }
+
+    }
+  }
+
+  // display positions
+  function displayPositions() {
+    global $connection;
+
+    $query = "SELECT * FROM positions";
+    $select_all_positions_query = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($select_all_positions_query)) {
+      $position_id = $row["id"];
+      $position_name = $row["posisi"];
+
+      echo "<tr>
+              <td>$position_id</td>
+              <td>$position_name</td>
+              <td><a href='pegawai.php?delete-posisi=$position_id'>Delete</a></td>
+            </tr>";
+    }
+  }
+
+  // delete position
+  function deletePosition() {
+    global $connection;
+
+    if(isset($_GET["delete-posisi"])) {
+      $the_position_id = $_GET["delete-posisi"];
+      $query = "DELETE FROM positions WHERE id = '$the_position_id'";
       $query_delete = mysqli_query($connection, $query);
       header("Location: pegawai.php");
     }

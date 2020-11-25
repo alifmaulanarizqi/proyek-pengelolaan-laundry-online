@@ -21,8 +21,7 @@
                   <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">
                     <thead>
                       <tr>
-                        <th class="font-weight-bold">Id</th>
-                        <th class="font-weight-bold">Kode Produk</th>
+                        <th class="font-weight-bold">ID</th>
                         <th class="th-sm font-weight-bold">Nama</th>
                         <th class="th-sm font-weight-bold">Harga/Kilo</th>
                         <th class="th-sm font-weight-bold">Keterangan</th>
