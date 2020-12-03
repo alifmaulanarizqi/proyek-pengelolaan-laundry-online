@@ -10,16 +10,16 @@
             </div>
             <div class="card-body">
               <form class="text-center border border-light p-5" action="">
-                  <input type="email" class="form-control mb-4 py-4" placeholder="Email">
-                  <input type="password" class="form-control mb-4 py-4" placeholder="Password">
-                  <div class="d-flex justify-content-around">
-                    <div>
-                        <a href="">Lupa password?</a>
-                    </div>
+                <input type="email" class="form-control mb-4 py-4" placeholder="Email">
+                <input type="password" class="form-control mb-4 py-4" placeholder="Password">
+                <div class="d-flex justify-content-around">
+                  <div>
+                      <a href="">Lupa password?</a>
                   </div>
-                  <div class="container w-50">
-                    <button class="btn btn-primary btn-block mt-4" type="submit"><a href="index.php" class="text-white link-style-none">Login</a></button>
-                  </div>
+                </div>
+                <div class="container w-50">
+                  <button class="btn btn-primary btn-block mt-4" type="submit"><a href="index.php" class="text-white link-style-none">Login</a></button>
+                </div>
               </form>
             </div>
           </div>

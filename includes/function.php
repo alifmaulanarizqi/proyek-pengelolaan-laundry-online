@@ -8,24 +8,18 @@
   function getTotalEmployees() {
     global $connection; global $total_employees;
 
-    $query = "SELECT * FROM employees";
+    $query = "SELECT COUNT(*) AS number_employees FROM employees";
     $select_all_employees_query = mysqli_query($connection, $query);
-
-    while (mysqli_fetch_assoc($select_all_employees_query)) {
-      $total_employees++;
-    }
+    $total_employees = mysqli_fetch_assoc($select_all_employees_query)["number_employees"];
   }
 
   // count number of customers
   function getTotalCustomers() {
     global $connection; global $total_customers;
 
-    $query = "SELECT * FROM customers";
+    $query = "SELECT COUNT(*) AS number_customers FROM customers";
     $select_all_customers_query = mysqli_query($connection, $query);
-
-    while (mysqli_fetch_assoc($select_all_customers_query)) {
-      $total_customers++;
-    }
+    $total_customers = mysqli_fetch_assoc($select_all_customers_query)["number_customers"];
   }
 
   // display recent transactions
@@ -170,7 +164,7 @@
       die("Query FAILED " . mysqli_error($connection));
     }
   }
-  // end of pengaturan.php
+// end of pengaturan.php
 
 
 
@@ -287,6 +281,7 @@
               <td>$laundry_weight</td>
               <td>$transaction_date</td>
               <td>Rp $transaction_price</td>
+              <td><a href='transaksi.php?source=edit_transaksi&edit_transaksi_id=$transaction_id'>Edit</a></td>
               <td><a href='transaksi.php?delete=$transaction_id&cust_id=$customer_id'>Delete</a></td>
             </tr>";
     }
@@ -300,9 +295,8 @@
       $the_transaction_id = $_GET["delete"];
       $the_customer_id = $_GET["cust_id"];
 
-      $query = "SELECT * FROM customers WHERE id='$the_customer_id'";
+      $query = "SELECT jml_transaksi FROM customers WHERE id='$the_customer_id'";
       $customer_total_transaction_query = mysqli_query($connection, $query);
-
       $row = mysqli_fetch_assoc($customer_total_transaction_query);
       $customer_total_transaction = $row["jml_transaksi"];
 
@@ -322,7 +316,7 @@
 
   // link product field with database
   function displayProductList() {
-    global $connection;
+    global $connection; global $product_id;
 
     $query = "SELECT * FROM products";
     $select_all_products_query = mysqli_query($connection, $query);
@@ -330,7 +324,12 @@
     while ($row = mysqli_fetch_assoc($select_all_products_query)) {
       $id_produk = $row["id"];
 
-      echo "<option>$id_produk</option>";
+      if($product_id == $id_produk) {
+        echo "<option selected value='$id_produk'>$id_produk</option>";
+      } else {
+        echo "<option value='$id_produk'>$id_produk</option>";
+      }
+
     }
   }
 
@@ -360,22 +359,15 @@
     global $field_customer_name; global $field_customer_email; global $field_product; global $field_laundry_weight; global $field_date; global $connection;
 
     if(isset($_POST["submit"])) {
-      $query = "SELECT * FROM products";
+      $query = "SELECT harga FROM products WHERE id = '$field_product'";
       $select_all_employees_query = mysqli_query($connection, $query);
-
-      while ($row = mysqli_fetch_assoc($select_all_employees_query)) {
-        $kode_produk = $row["id"];
-        if($kode_produk == $field_product) {
-          $harga_produk = $row["harga"];
-          break;
-        }
-      }
+      $row = mysqli_fetch_assoc($select_all_employees_query);
+      $harga_produk = $row["harga"];
 
       addCustomer();
 
       $query = "SELECT id FROM customers WHERE nama='$field_customer_name' AND email='$field_customer_email'";
       $select_id_customers_query = mysqli_query($connection, $query);
-
       $row = mysqli_fetch_assoc($select_id_customers_query);
       $customer_id = $row["id"];
 
@@ -485,6 +477,110 @@
     }
   }
 // end of pelanggan.php
+
+
+
+
+// edit_transaksi.php
+  // get value of transaction
+  function getEditTransactionValue() {
+    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $product_id; global $laundry_weight;
+
+    if(isset($_GET["edit_transaksi_id"])) {
+      $transaction_id = $_GET["edit_transaksi_id"];
+    }
+
+    $query = "SELECT * FROM transactions WHERE id = '$transaction_id'";
+    $select_transaction_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_transaction_query);
+
+    $product_id = $row["id_produk"];
+
+    $customer_id = $row["id_customer"];
+    $query = "SELECT * FROM customers WHERE id = $customer_id";
+    $select_name_email_query = mysqli_query($connection, $query);
+    $row2 = mysqli_fetch_assoc($select_name_email_query);
+    $customer_name = $row2["nama"];
+    $customer_email = $row2["email"];
+
+    $product_id = $row["id_produk"];
+    $laundry_weight = $row["berat_laundry"];
+  }
+
+  // edit transaction
+  function editTransaction() {
+    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $notifsuccess;
+
+    if(isset($_POST["edit-transaksi"])) {
+      $the_customer_name = $_POST["nama"];
+      $the_customer_email = $_POST["email"];
+      $produk_id = $_POST["product"];
+      $laundry_weight = $_POST["berat"];
+
+      if($customer_name == $the_customer_name && $customer_email == $the_customer_email) {
+        $query = "SELECT harga FROM products WHERE id = '$produk_id'";
+        $select_price_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_price_query);
+        $product_price = $row["harga"];
+        $transaction_product_price = $product_price * $laundry_weight;
+
+        $query = "UPDATE transactions SET id_produk = '$produk_id', berat_laundry = $laundry_weight, tanggal = now(), harga = $transaction_product_price WHERE id = $transaction_id";
+        $update_post_query = mysqli_query($connection, $query);
+        $notifsuccess = "Transaksi berhasil diubah";
+      } else {
+        $query = "SELECT * FROM customers WHERE nama = '$customer_name' AND email = '$customer_email'";
+        $select_id_customers_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_id_customers_query);
+        $customer_id = $row["id"];
+        $number_of_transaction = $row["jml_transaksi"];
+
+        if($number_of_transaction == 1) {
+          $query = "DELETE FROM customers WHERE id = $customer_id";
+          $delete_customer_query = mysqli_query($connection, $query);
+
+          $query = "SELECT * FROM customers WHERE nama = '$the_customer_name' AND email = '$the_customer_email'";
+          $select_customers_query = mysqli_query($connection, $query);
+
+          if(!is_null($select_customers_query)) {
+            $query = "SELECT * FROM customers WHERE nama = '$the_customer_name' AND email = '$the_customer_email'";
+            $select_customers_query = mysqli_query($connection, $query);
+            $row = mysqli_fetch_assoc($select_customers_query);
+            $customer_id2 = $row["id"];
+            $number_of_transaction2 = $row["jml_transaksi"];
+
+            $query = "UPDATE customers SET jml_transaksi = $number_of_transaction2+1 WHERE id = $customer_id2";
+            $update_customer_query = mysqli_query($connection, $query);
+
+            $query = "UPDATE transactions SET id_customer = $customer_id2 WHERE id = $transaction_id";
+            $update_transaction_query = mysqli_query($connection, $query);
+          } else {
+            $query = "INSERT INTO customers(nama, jml_transaksi, email) VALUES ('$the_customer_name', '1', '$the_customer_email')";
+            $add_customer_query = mysqli_query($connection, $query);
+          }
+        } else {
+          $query = "UPDATE customers SET jml_transaksi = $number_of_transaction-1 WHERE id = $customer_id";
+          $update_customer_query = mysqli_query($connection, $query);
+
+          $query = "SELECT MAX(id) AS 'max_id' FROM customers";
+          $max_customer_id_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($max_customer_id_query);
+          $max_customer_id = $row["max_id"];
+
+          $query = "UPDATE transactions SET id_customer = $max_customer_id+1 WHERE id = $transaction_id";
+          $update_transaction_query = mysqli_query($connection, $query);
+
+          $query = "INSERT INTO customers(nama, jml_transaksi, email) VALUES ('$the_customer_name', '1', '$the_customer_email')";
+          $add_customer_query = mysqli_query($connection, $query);
+        }
+
+        $notifsuccess = "Transaksi berhasil diubah";
+      }
+
+    }
+  }
+
+// end of edit_transaksi.php
+
 
 
 

@@ -121,7 +121,6 @@
                       <label class="control-label col-sm-5 font-weight-bold">Posisi</label>
                       <div class="col-sm-10">
                         <select class="browser-default custom-select" name="posisi" required>
-                          <option selected disabled value="">Pilih posisi...</option>
                           <?php
                             displayPositionList();
                           ?>
