@@ -456,9 +456,44 @@
               <td>$customer_name</td>
               <td>$customer_total_transaction</td>
               <td>$customer_email</td>
+              <td><a href='pelanggan.php?source=edit_customer&edit_customer_id=$customer_id'>Edit</a></td>
               <td><a href='pelanggan.php?delete=$customer_id'>Delete</a></td>
             </tr>";
     }
+  }
+
+  // get value of edit customer
+  function getEditCustomerValue() {
+    global $connection; global $customer_id; global $customer_name; global $customer_email;
+
+    if(isset($_GET["edit_customer_id"])) {
+      $customer_id = $_GET["edit_customer_id"];
+    }
+
+    $query = "SELECT * FROM customers WHERE id = '$customer_id'";
+    $select_customers_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_customers_query);
+
+    $customer_name = $row["nama"];
+    $customer_email = $row["email"];
+  }
+
+  // edit customer
+  function editCustomer() {
+    global $connection; global $customer_id; global $customer_name; global $customer_email; global $notifsuccess;
+
+    if(isset($_POST["edit-customer"])) {
+      $the_customer_name = $_POST["nama"];
+      $the_customer_email = $_POST["email"];
+
+      $query = "UPDATE customers SET nama = '$the_customer_name', email = '$the_customer_email' WHERE id = $customer_id";
+      $update_customer_query = mysqli_query($connection, $query);
+      $notifsuccess = "Data pelanggan berhasil diubah";
+
+      $customer_name = "";
+      $customer_email = "";
+    }
+
   }
 
   // delete customer
@@ -509,7 +544,7 @@
 
   // edit transaction
   function editTransaction() {
-    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $notifsuccess;
+    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $product_id; global $laundry_weight; global $notifsuccess;
 
     if(isset($_POST["edit-transaksi"])) {
       $the_customer_name = $_POST["nama"];
@@ -526,7 +561,6 @@
 
         $query = "UPDATE transactions SET id_produk = '$produk_id', berat_laundry = $laundry_weight, tanggal = now(), harga = $transaction_product_price WHERE id = $transaction_id";
         $update_post_query = mysqli_query($connection, $query);
-        $notifsuccess = "Transaksi berhasil diubah";
       } else {
         $query = "SELECT * FROM customers WHERE nama = '$customer_name' AND email = '$customer_email'";
         $select_id_customers_query = mysqli_query($connection, $query);
@@ -573,9 +607,13 @@
           $add_customer_query = mysqli_query($connection, $query);
         }
 
-        $notifsuccess = "Transaksi berhasil diubah";
       }
 
+      $notifsuccess = "Transaksi berhasil diubah";
+      $customer_name = "";
+      $customer_email = "";
+      $product_id = "";
+      $laundry_weight = "";
     }
   }
 
