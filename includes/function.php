@@ -714,19 +714,32 @@
     global $field_employee_start_date; global $field_employee_salary; global $connection;
 
     if(isset($_POST["tambah-pegawai"])) {
+
       $query = "SELECT id FROM positions WHERE posisi='$field_employee_posisi'";
       $select_position_id_query = mysqli_query($connection, $query);
       $row = mysqli_fetch_assoc($select_position_id_query);
       $position_id = $row["id"];
 
-      $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
+      if($field_employee_posisi == "Admin") {
+        $admin_password = "admin";
+        $hashFormat = "$2y$10$";
+        $salt = "usesomesillystringforsalt";
+        $hashFormatAndSalt = $hashFormat . $salt;
+        $admin_password = crypt($admin_password, $hashFormatAndSalt);
 
-      $result = mysqli_query($connection, $query_add_employee);
-      header("Location: pegawai.php");
+        $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password')";
+        $result = mysqli_query($connection, $query_add_employee);
+        header("Location: pegawai.php");
+      } else {
+        $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary')";
+        $result = mysqli_query($connection, $query_add_employee);
+        header("Location: pegawai.php");
+      }
 
       if(!$result) {
         die("Query FAILED " . mysqli_error($connection));
       }
+
     }
   }
 
@@ -757,6 +770,7 @@
               <td>$employee_gender</td>
               <td>$employee_start_date</td>
               <td>Rp $employee_salary</td>
+              <td><a href='pegawai.php?source=edit_pegawai&edit_pegawai_id=$employee_id'>Edit</a></td>
               <td><a href='pegawai.php?delete-pegawai=$employee_id'>Delete</a></td>
             </tr>";
     }
@@ -764,16 +778,119 @@
 
   // link product field with database
   function displayPositionList() {
-    global $connection;
+    global $connection; global $employee_position;
 
     $query = "SELECT * FROM positions";
     $select_all_positions_query = mysqli_query($connection, $query);
 
     while ($row = mysqli_fetch_assoc($select_all_positions_query)) {
       $nama_posisi = $row["posisi"];
+      $id_posisi = $row["id"];
 
-      echo "<option value='<?php echo $nama_posisi; ?>'>$nama_posisi</option>";
+      if($id_posisi == $employee_position) {
+        echo "<option selected value='$nama_posisi'>$nama_posisi</option>";
+      } else {
+        echo "<option value='$nama_posisi'>$nama_posisi</option>";
+      }
+
     }
+  }
+
+  // get value of edit employee
+  function getEditEmployeeValue() {
+    global $connection; global $employee_name; global $employee_email; global $employee_age; global $employee_gender; global $employee_position;
+    global $employee_start_date; global $employee_salary; global $employee_id;
+
+    if(isset($_GET["edit_pegawai_id"])) {
+      $employee_id = $_GET["edit_pegawai_id"];
+    }
+
+    $query = "SELECT * FROM employees WHERE id = $employee_id";
+    $select_customer_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_customer_query);
+
+    $employee_name = $row["nama"];
+    $employee_email = $row["email"];
+    $employee_age = $row["umur"];
+    $employee_gender = $row["gender"];
+    $employee_position = $row["posisi"];
+    $employee_start_date = $row["start_date"];
+    $employee_salary = $row["gaji"];
+  }
+
+  // edit employee
+  function editEmployee() {
+    global $connection; global $employee_name; global $employee_email; global $employee_age; global $employee_gender; global $employee_position;
+    global $employee_start_date; global $employee_salary; global $employee_id; global $check_employee; global $notifsuccess;
+
+    if(isset($_POST["edit-pegawai"])) {
+      $the_employee_name = $_POST["nama"];
+      $the_employee_email = $_POST["email"];
+      $the_employee_age = $_POST["umur"];
+      $the_employee_gender = $_POST["gender"];
+      $the_employee_position = $_POST["posisi"];
+      $the_employee_start_date = $_POST["start-date"];
+      $the_employee_salary = $_POST["gaji"];
+
+      $query = "SELECT id FROM employees WHERE nama = '$the_employee_name' AND email = '$the_employee_email'";
+      $select_employee_query = mysqli_query($connection, $query);
+      $row = mysqli_fetch_assoc($select_employee_query);
+
+      if($row === null) {
+        $query = "SELECT id FROM positions WHERE posisi = '$the_employee_position'";
+        $select_position_id_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_position_id_query);
+        $the_employee_position2 = $row["id"];
+
+        $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
+        $update_employee_query = mysqli_query($connection, $query);
+
+        $notifsuccess = "Data pegawai berhasil diubah";
+
+        $employee_name = "";
+        $employee_email = "";
+        $employee_age = "";
+        $employee_gender = "";
+        $employee_position = "";
+        $employee_start_date = "";
+        $employee_salary = "";
+      } else {
+        $check_employee = "Pegawai sudah digunakan";
+      }
+
+      // $check_double_employee = "";
+      // while($row = mysqli_fetch_assoc($select_employee_query)) {
+      //   $the_employee_id = $row["id"];
+      //
+      //   if($the_employee_id == $employee_id) {
+      //     $check_double_employee = "kembar";
+      //     break;
+      //   }
+      //
+      // }
+      //
+      // if($check_double_employee == "kembar") {
+      //   $check_employee = "Pegawai sudah digunakan";
+      // } else {
+      //   $query = "SELECT id FROM positions WHERE posisi = '$the_employee_position'";
+      //   $select_position_id_query = mysqli_query($connection, $query);
+      //   $row = mysqli_fetch_assoc($select_position_id_query);
+      //   $the_employee_position2 = $row["id"];
+      //
+      //   $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
+      //   $update_employee_query = mysqli_query($connection, $query);
+      //
+      //   $employee_name = "";
+      //   $employee_email = "";
+      //   $employee_age = "";
+      //   $employee_gender = "";
+      //   $employee_position = "";
+      //   $employee_start_date = "";
+      //   $employee_salary = "";
+      // }
+
+    }
+
   }
 
   // delete employee
@@ -840,6 +957,7 @@
       echo "<tr>
               <td>$position_id</td>
               <td>$position_name</td>
+              <td><a href='pegawai.php?source=edit_posisi&edit_posisi_id=$position_id'>Edit</a></td>
               <td><a href='pegawai.php?delete-posisi=$position_id'>Delete</a></td>
             </tr>";
     }
