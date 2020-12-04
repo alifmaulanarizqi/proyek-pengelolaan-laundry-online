@@ -237,9 +237,68 @@
               <td>$product_name</td>
               <td>Rp $product_price</td>
               <td>$product_info</td>
+              <td><a href='produk.php?source=edit_produk&edit_produk_id=$product_id'>Edit</a></td>
               <td><a href='produk.php?delete=$product_id'>Delete</a></td>
             </tr>";
     }
+  }
+
+  // get value of edit product
+  function getEditProductValue() {
+    global $connection; global $product_id; global $product_name; global $product_price; global $product_detail;
+
+    if(isset($_GET["edit_produk_id"])) {
+      $product_id = $_GET["edit_produk_id"];
+    }
+
+    $query = "SELECT * FROM products WHERE id = '$product_id'";
+    $select_product_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_product_query);
+
+    $product_name = $row["nama"];
+    $product_price = $row["harga"];
+    $product_detail = $row["keterangan"];
+  }
+
+  // edit product
+  function editProduct() {
+    global $connection; global $product_id; global $product_name; global $product_price; global $product_detail; global $notifsuccess; global $double_product_id;
+
+    if(isset($_POST["edit-produk"])) {
+      $the_product_id = $_POST["kode-produk"];
+      $the_product_name = $_POST["nama"];
+      $the_product_price = $_POST["harga"];
+      $the_product_detail = $_POST["keterangan"];
+
+      $query = "SELECT id FROM products WHERE NOT id = '$product_id'";
+      $select_product_id_query = mysqli_query($connection, $query);
+
+      $check_poduct_id = "";
+      while ($row = mysqli_fetch_assoc($select_product_id_query)) {
+        if($the_product_id == $row["id"]) {
+          $check_poduct_id = "kembar";
+          break;
+        }
+      }
+
+      if($check_poduct_id == "kembar") {
+        $double_product_id = "Produk id sudah digunakan";
+      } else {
+        $query = "UPDATE products SET id = '$the_product_id', nama = '$the_product_name', harga = $the_product_price, keterangan = '$the_product_detail' WHERE id = '$product_id'";
+        $update_product_query = mysqli_query($connection, $query);
+
+        $query = "UPDATE transactions SET id_produk = '$the_product_id' WHERE id_produk = '$product_id'";
+        $update_transaction_query = mysqli_query($connection, $query);
+        $notifsuccess = "Data produk bergasil diubah";
+
+        $product_id = "";
+        $product_name = "";
+        $product_price = "";
+        $product_detail = "";
+      }
+
+    }
+
   }
 
   // delete product
