@@ -58,6 +58,7 @@
   $field_employee_posisi = "";
   $field_employee_start_date = "";
   $field_employee_salary = "";
+  $check_employee = "";
 
   setFieldAddEmployee();
 ?>
@@ -135,6 +136,7 @@
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default form-button" name="tambah-pegawai">Submit</button>
+                    <span class="text-danger"><?php echo $check_employee; ?></span>
                   </div>
                 </div>
               </form>
