@@ -176,7 +176,7 @@
                 <div class="form-group mb-7">
                   <label class="control-label col-sm-12 font-weight-bold" for="nama">Nama</label>
                   <div class="col-sm-12 position-relative">
-                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama" required><span class="error"><?php echo $position_err; ?></span>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama posisi" required><span class="error"><?php echo $position_err; ?></span>
                     <i class="fas fa-user position-absolute text-muted icon-in-field" tabindex=0></i>
                   </div>
                 </div>

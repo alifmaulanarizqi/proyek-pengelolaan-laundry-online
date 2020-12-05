@@ -14,8 +14,11 @@
   }
 
   switch($source) {
-    case "edit_pegawai";
+    case "edit_pegawai":
       include "edit_pegawai.php";
+      break;
+    case "edit_posisi":
+      include "edit_posisi.php";
       break;
     default:
       include "tabel_dan_form_pegawai.php";

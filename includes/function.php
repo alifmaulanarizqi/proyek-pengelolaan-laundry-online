@@ -189,7 +189,7 @@
 
   // add product
   function addProduct() {
-    global $field_product_code; global $field_product_name; global $field_product_price; global $field_product_info; global $connection;
+    global $field_product_code; global $field_product_name; global $field_product_price; global $field_product_info; global $connection; global $double_product;
     $tmp = "";
 
     $query = "SELECT * FROM products";
@@ -197,15 +197,16 @@
 
     if(isset($_POST["submit"])) {
       while($row = mysqli_fetch_assoc($select_all_products_query)) {
-        if($field_product_code == $row["kode_produk"]) {
+        if($field_product_code == $row["id"]) {
           $tmp = "kembar";
+          break;
         }
       }
 
       if($tmp == "kembar") {
-        echo "<script>alert('Kode produk tidak boleh sama');</script>";
+        $double_product = "Kode produk sudah terdaftar";
       } else {
-        $query_add_product = "INSERT INTO products(kode_produk, nama, harga, keterangan) VALUES ('$field_product_code', '$field_product_name', '$field_product_price', '$field_product_info')";
+        $query_add_product = "INSERT INTO products(id, nama, harga, keterangan) VALUES ('$field_product_code', '$field_product_name', '$field_product_price', '$field_product_info')";
 
         $result = mysqli_query($connection, $query_add_product);
         header("Location: produk.php");
@@ -545,10 +546,28 @@
       $the_customer_name = $_POST["nama"];
       $the_customer_email = $_POST["email"];
 
-      $query = "UPDATE customers SET nama = '$the_customer_name', email = '$the_customer_email' WHERE id = $customer_id";
-      $update_customer_query = mysqli_query($connection, $query);
-      $notifsuccess = "Data pelanggan berhasil diubah";
+      $query = "SELECT * FROM customers WHERE nama = '$the_customer_name' AND email = '$the_customer_email'";
+      $select_customer_query = mysqli_query($connection, $query);
+      $row = mysqli_fetch_assoc($select_customer_query);
 
+      if($row === null) {
+        $query = "UPDATE customers SET nama = '$the_customer_name', email = '$the_customer_email' WHERE id = $customer_id";
+        $update_customer_query = mysqli_query($connection, $query);
+      } else {
+        $the_customer_id = $row["id"];
+        $number_of_transaction = $row["jml_transaksi"];
+
+        $query = "UPDATE transactions SET id_customer = $the_customer_id WHERE id_customer = $customer_id";
+        $update_transaction_query = mysqli_query($connection, $query);
+
+        $query = "DELETE FROM customers WHERE id = $customer_id";
+        $delete_customer_query = mysqli_query($connection, $query);
+
+        $query = "UPDATE customers SET jml_transaksi = $number_of_transaction+1 WHERE id = $the_customer_id";
+        $update_customer_query = mysqli_query($connection, $query);
+      }
+
+      $notifsuccess = "Data pelanggan berhasil diubah";
       $customer_name = "";
       $customer_email = "";
     }
@@ -727,7 +746,12 @@
         $hashFormatAndSalt = $hashFormat . $salt;
         $admin_password = crypt($admin_password, $hashFormatAndSalt);
 
-        $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password')";
+        $query = "SELECT DISTINCT nama_laundry FROM employees";
+        $select_nama_laundry_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_nama_laundry_query);
+        $laundry_name = $row["nama_laundry"];
+
+        $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', '$laundry_name')";
         $result = mysqli_query($connection, $query_add_employee);
         header("Location: pegawai.php");
       } else {
@@ -858,37 +882,6 @@
         $check_employee = "Pegawai sudah digunakan";
       }
 
-      // $check_double_employee = "";
-      // while($row = mysqli_fetch_assoc($select_employee_query)) {
-      //   $the_employee_id = $row["id"];
-      //
-      //   if($the_employee_id == $employee_id) {
-      //     $check_double_employee = "kembar";
-      //     break;
-      //   }
-      //
-      // }
-      //
-      // if($check_double_employee == "kembar") {
-      //   $check_employee = "Pegawai sudah digunakan";
-      // } else {
-      //   $query = "SELECT id FROM positions WHERE posisi = '$the_employee_position'";
-      //   $select_position_id_query = mysqli_query($connection, $query);
-      //   $row = mysqli_fetch_assoc($select_position_id_query);
-      //   $the_employee_position2 = $row["id"];
-      //
-      //   $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
-      //   $update_employee_query = mysqli_query($connection, $query);
-      //
-      //   $employee_name = "";
-      //   $employee_email = "";
-      //   $employee_age = "";
-      //   $employee_gender = "";
-      //   $employee_position = "";
-      //   $employee_start_date = "";
-      //   $employee_salary = "";
-      // }
-
     }
 
   }
@@ -961,6 +954,45 @@
               <td><a href='pegawai.php?delete-posisi=$position_id'>Delete</a></td>
             </tr>";
     }
+  }
+
+  // get edit value of employee
+  function getEditPositionValue() {
+    global $connection; global $position_id; global $position_name;
+
+    if(isset($_GET["edit_posisi_id"])) {
+      $position_id = $_GET["edit_posisi_id"];
+    }
+
+    $query = "SELECT posisi FROM positions WHERE id = $position_id";
+    $select_position_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_position_query);
+
+    $position_name = $row["posisi"];
+  }
+
+  // edit position
+  function editPosition() {
+    global $connection; global $position_id; global $position_name; global $notifsuccess; global $notifdanger;
+
+    if(isset($_POST["edit-posisi"])) {
+      $the_position_name = $_POST["nama"];
+
+      $query = "SELECT * FROM positions WHERE posisi = '$the_position_name'";
+      $select_position_query = mysqli_query($connection, $query);
+      $row = mysqli_fetch_assoc($select_position_query);
+
+      if($row === null) {
+        $query = "UPDATE positions SET posisi = '$the_position_name' WHERE id = $position_id";
+        $update_position_query = mysqli_query($connection, $query);
+        $notifsuccess = "Data posisi berhasil diubah";
+      } else {
+        $notifdanger = "Posisi sudah terdaftar";
+      }
+
+      $position_name = "";
+    }
+
   }
 
   // delete position

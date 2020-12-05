@@ -51,6 +51,7 @@
   $field_product_name = "";
   $field_product_price = "";
   $field_product_info = "";
+  $double_product = "";
 
   setFieldAddProduct();
 ?>
@@ -102,6 +103,7 @@
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default form-button" name="submit">Submit</button>
+                    <span class="text-danger"><?php echo $double_product; ?></span>
                   </div>
                 </div>
               </form>
