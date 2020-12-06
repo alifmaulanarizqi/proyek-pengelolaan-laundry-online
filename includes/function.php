@@ -738,7 +738,7 @@
       $row = mysqli_fetch_assoc($select_employee_query);
 
       if($row === null) {
-        $query = "SELECT * FROM employees WHERE nama = '$field_employee_name' AND email = '$field_employee_email'";
+        $query = "SELECT * FROM positions WHERE posisi = '$field_employee_posisi'";
         $select_position_id_query = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($select_position_id_query);
         $position_id = $row["id"];
@@ -755,7 +755,12 @@
           $row = mysqli_fetch_assoc($select_nama_laundry_query);
           $laundry_name = $row["nama_laundry"];
 
-          $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', '$laundry_name')";
+          if($laundry_name == "") {
+            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', 'Laundry Dong')";
+          } else {
+            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', '$laundry_name')";
+          }
+
           $result = mysqli_query($connection, $query_add_employee);
           header("Location: pegawai.php");
         } else {
@@ -886,7 +891,7 @@
         $employee_start_date = "";
         $employee_salary = "";
       } else {
-        $check_employee = "Pegawai sudah digunakan";
+        $check_employee = "Pegawai sudah terdaftar";
       }
 
     }

@@ -1,5 +1,14 @@
 <?php ob_start(); ?>
 
+<!-- turn on the session -->
+<?php session_start(); ?>
+
+<?php
+  if(!isset($_SESSION["role"])) {
+    header("Location: session_end.php");
+  }
+?>
+
 <!-- database connection -->
 <?php include "dbConnection.php"; ?>
 
