@@ -1,9 +1,10 @@
 <?php session_start(); ?>
 
 <?php
-$_SESSION["email"] = null;
-$_SESSION["name"] = null;
-$_SESSION["role"] = null;
+  $_SESSION["username"] = null;
+  $_SESSION["password"] = null;
+  $_SESSION["role"] = null;
+  $_SESSION["laundry_name"] = null;
 
-header("Location: login.php");
+  header("Location: login.php");
 ?>

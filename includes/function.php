@@ -54,10 +54,9 @@
 // pengaturan.php
   // set form field
   function setDisplayAndLaundryName() {
-    global $connection;
-    global $laundry_name;
-    global $display_name;
+    global $connection; global $laundry_name; global $display_name; global $display_name_copy;
 
+    $display_name_copy = $display_name;
     $laundry_name = $_POST["nama-laundry"];
     $display_name = $_POST["nama-display"];
 
@@ -66,25 +65,18 @@
     $display_name = mysqli_real_escape_string($connection, $display_name);
   }
 
-  // get laundry name and display name
-  function getLaundryAndDisplayName(){
-    global $connection;
-
-    $query = "SELECT * FROM user";
-    $user_query = mysqli_query($connection, $query);
-    $row = mysqli_fetch_assoc($user_query);
-    $laundry_name = $row["nama_laundry"];
-    $display_name = $row["nama_display"];
-  }
-
   // update display and laundry name
   function updateDisplayAndLaundryName() {
-    global $connection;
-    global $laundry_name;
-    global $display_name;
+    global $connection; global $laundry_name; global $display_name; global $display_name_copy;
 
-    $query = "UPDATE user SET nama_display ='$display_name', nama_laundry ='$laundry_name' WHERE id ='1'";
+    $query = "UPDATE employees SET username ='$display_name' WHERE id = (SELECT id FROM employees WHERE username = '$display_name_copy')";
     $result = mysqli_query($connection, $query);
+
+    $query = "UPDATE employees SET nama_laundry ='$laundry_name' WHERE posisi = (SELECT id FROM positions WHERE posisi = 'Admin')";
+    $result = mysqli_query($connection, $query);
+
+    $_SESSION["laundry_name"] = $laundry_name;
+    $_SESSION["username"] = $display_name;
 
     if(!$result) {
       die("Query FAILED " . mysqli_error($connection));
@@ -118,15 +110,14 @@
 
   // notif when user input wrong password
   function oldPasswordIsWrong() {
-    global $connection;
-    global $old_password;
-    global $old_password_err;
+    global $connection; global $old_password; global $old_password_err;
 
     $old_password_copy = $old_password;
+    $username = $_SESSION["username"];
 
-    $query = "SELECT * FROM user";
-    $user_query = mysqli_query($connection, $query);
-    $row = mysqli_fetch_assoc($user_query);
+    $query = "SELECT password FROM employees WHERE username = '$username'";
+    $select_employee_pass_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_employee_pass_query);
     $old_password = $row["password"];
 
     if($old_password != $old_password_copy) {
@@ -136,11 +127,7 @@
 
   // notif when user input new password and confirmation doesn't match
   function newAndConfirmPasswordNotMatch() {
-    global $connection;
-    global $new_password;
-    global $conrifm_new_password;
-    global $new_password_err;
-    global $conrifm_new_password_err;
+    global $connection; global $new_password; global $conrifm_new_password; global $new_password_err; global $conrifm_new_password_err;
 
     if($new_password != $conrifm_new_password) {
       $new_password_err = $conrifm_new_password_err = "Password baru dan konfirmasi password tidak sesuai.";
@@ -149,16 +136,15 @@
 
   // update password
   function updatePassword() {
-    global $connection;
-    global $old_password;
-    global $new_password;
-    global $conrifm_new_password;
-    global $old_password_err;
-    global $new_password_err;
-    global $conrifm_new_password;
+    global $connection; global $old_password; global $new_password; global $conrifm_new_password; global $old_password_err;
+    global $new_password_err; global $conrifm_new_password; global $notifsuccess;
 
-    $query = "UPDATE user SET password = '$new_password' WHERE id ='1'";
+    $username = $_SESSION["username"];
+    $query = "UPDATE employees SET password = '$new_password' WHERE id = (SELECT id FROM employees WHERE username = '$username')";
     $result = mysqli_query($connection, $query);
+
+    $notifsuccess = "Password berhasil diganti";
+    $_SESSION["password"] = $new_password;
 
     if(!$result) {
       die("Query FAILED " . mysqli_error($connection));
@@ -756,9 +742,9 @@
           $laundry_name = $row["nama_laundry"];
 
           if($laundry_name == "") {
-            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', 'Laundry Dong')";
+            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, username, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$field_employee_name', '$admin_password', 'Laundry Dong')";
           } else {
-            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$admin_password', '$laundry_name')";
+            $query_add_employee = "INSERT INTO employees(nama, posisi, email, umur, gender, start_date, gaji, username, password, nama_laundry) VALUES ('$field_employee_name', '$position_id', '$field_employee_email', '$field_employee_age', '$field_employee_gender', '$field_employee_start_date', '$field_employee_salary', '$field_employee_name', '$admin_password', '$laundry_name')";
           }
 
           $result = mysqli_query($connection, $query_add_employee);

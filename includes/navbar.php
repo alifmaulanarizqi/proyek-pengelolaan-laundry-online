@@ -14,11 +14,9 @@
         <?php
           $pageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 
-          $query = "SELECT * FROM user";
-          $user_query = mysqli_query($connection, $query);
-          $row = mysqli_fetch_assoc($user_query);
-          $laundry_name = $row["nama_laundry"];
-          $display_name = $row["nama_display"];
+          $laundry_name = $_SESSION["laundry_name"];
+          $display_name = $_SESSION["username"];
+          $display_name_copy = "";
         ?>
         <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
           <a href="index.php" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border"><?php echo $laundry_name; ?></a>

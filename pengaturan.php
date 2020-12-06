@@ -9,11 +9,6 @@
 
     <!-- form -->
 
-    <!-- get laundry name and display name -->
-    <?php
-      getLaundryAndDisplayName();
-    ?>
-
     <!-- name setting -->
     <?php
       if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -73,6 +68,7 @@
       $old_password_err = "";
       $new_password_err = "";
       $conrifm_new_password_err = "";
+      $notifsuccess = "";
 
       if($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST["ganti-password"])) {
@@ -121,6 +117,7 @@
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-default form-button" name="ganti-password">Submit</button>
+                        <span class="text-success"><?php echo $notifsuccess; ?></span>
                       </div>
                     </div>
                   </form>

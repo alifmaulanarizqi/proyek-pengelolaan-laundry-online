@@ -32,6 +32,8 @@
       $user_email = $row["email"];
       $user_password = $row["password"];
       $user_role_id = $row["posisi"];
+      $laundry_name = $row["nama_laundry"];
+      $user_username = $row["username"];
 
       $query = "SELECT posisi FROM positions WHERE id = $user_role_id";
       $select_position_name_query = mysqli_query($connection, $query);
@@ -41,9 +43,10 @@
       if($email != $user_email && $password != $user_password) {
         header("Location: ../login.php");
       } else if($email == $user_email && $password == $user_password){
-        $_SESSION["email"] = $user_email;
-        $_SESSION["name"] = $user_name;
+        $_SESSION["username"] = $user_username;
+        $_SESSION["password"] = $user_password;
         $_SESSION["role"] = $user_role;
+        $_SESSION["laundry_name"] = $laundry_name;
 
         header("Location: ../index.php");
       } else {
