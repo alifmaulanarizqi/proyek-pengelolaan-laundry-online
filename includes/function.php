@@ -420,6 +420,9 @@
       $harga_produk *= $field_laundry_weight;
       $query_add_transaction = "INSERT INTO transactions(id_produk, id_customer, berat_laundry, tanggal, harga) VALUES ('$field_product', '$customer_id', '$field_laundry_weight', '$field_date', '$harga_produk')";
 
+      $query = "UPDATE products SET jml_transaksi = (SELECT jml_transaksi From products WHERE id = '$field_product')+1 WHERE id = '$field_product'";
+      $update_number_of_product_transaction = mysqli_query($connection, $query);
+
       $result = mysqli_query($connection, $query_add_transaction);
       header("Location: transaksi.php");
 
