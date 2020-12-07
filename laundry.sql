@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2020 at 03:40 AM
+-- Generation Time: Dec 07, 2020 at 05:22 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -39,10 +39,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `nama`, `jml_transaksi`, `email`) VALUES
-(27, 'test1', 3, 'test1@email.com'),
-(28, 'test2', 1, 'test2@email.com'),
-(29, 'test3', 1, 'test3@email.com'),
-(30, 'test4', 1, 'test4@email.com');
+(41, 'test1', 2, 'test1@email.com');
 
 -- --------------------------------------------------------
 
@@ -112,11 +109,31 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `nama`, `harga`, `keterangan`, `jml_transaksi`) VALUES
-('LNDRY1', 'Produk Laundry 1', '10000', 'Cuci + Setrika', 2),
+('LNDRY1', 'Produk Laundry 1', '10000', 'Cuci + Setrika', 1),
 ('LNDRY2', 'Produk Laundry 2', '7000', 'Cuci', 1),
-('LNDRY3', 'Produk Laundry 3', '6000', 'Setrika', 1),
-('LNDRY4', 'Produk Laundry 4', '13000', 'Cuci + Setrika + Cepat', 1),
-('LNDRY5', 'Produk Laundry 5', '15000', 'Cuci + Setrika + Cepat + Wangi', 1);
+('LNDRY3', 'Produk Laundry 3', '6000', 'Setrika', 0),
+('LNDRY4', 'Produk Laundry 4', '13000', 'Cuci + Setrika + Cepat', 0),
+('LNDRY5', 'Produk Laundry 5', '15000', 'Cuci + Setrika + Cepat + Wangi', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `total_transactions`
+--
+
+CREATE TABLE `total_transactions` (
+  `tanggal` date NOT NULL,
+  `total` decimal(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `total_transactions`
+--
+
+INSERT INTO `total_transactions` (`tanggal`, `total`) VALUES
+('2020-12-06', '42000'),
+('2020-12-07', '0'),
+('2020-12-08', '50000');
 
 -- --------------------------------------------------------
 
@@ -138,12 +155,8 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `id_produk`, `id_customer`, `berat_laundry`, `tanggal`, `harga`) VALUES
-(32, 'LNDRY1', 27, 3, '2020-12-06', '30000'),
-(33, 'LNDRY1', 28, 2, '2020-12-06', '20000'),
-(34, 'LNDRY2', 29, 1, '2020-12-06', '7000'),
-(35, 'LNDRY3', 30, 4, '2020-12-06', '24000'),
-(36, 'LNDRY4', 27, 3, '2020-12-07', '39000'),
-(37, 'LNDRY5', 27, 1, '2020-12-07', '15000');
+(57, 'LNDRY2', 41, 6, '2020-12-06', '42000'),
+(58, 'LNDRY1', 41, 5, '2020-12-08', '50000');
 
 --
 -- Indexes for dumped tables
@@ -174,6 +187,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `total_transactions`
+--
+ALTER TABLE `total_transactions`
+  ADD PRIMARY KEY (`tanggal`);
+
+--
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -187,7 +206,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `employees`
@@ -205,7 +224,7 @@ ALTER TABLE `positions`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
