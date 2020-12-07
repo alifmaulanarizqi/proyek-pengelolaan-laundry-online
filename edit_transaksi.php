@@ -55,6 +55,13 @@
                     <i class="fas fa-weight position-absolute text-muted icon-in-field" tabindex=0></i>
                   </div>
                 </div>
+                <div class="form-group mb-4">
+                  <label class="control-label col-sm-5 font-weight-bold">Tanggal</label>
+                  <div class="input-group col-sm-10 position-relative date">
+                    <input placeholder="Pilih tanggal" type="text" class="form-control datepicker" name="tanggal-transaksi" required>
+                    <i class="fas fa-calendar position-absolute text-muted icon-in-field" tabindex=0></i>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-default form-button" name="edit-transaksi">Edit Transaksi</button>

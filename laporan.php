@@ -108,16 +108,15 @@
     <script src="js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
     <!-- area chart script -->
-    <script src="js/chart/chart-area.js"></script>
+    <!-- <script src="js/chart/chart-area.js"></script> -->
     <!-- bar chart script -->
     <script src="js/chart/bar-chart.js"></script>
 
     <!-- pie chart -->
     <script>
-    $(document).ready(function () {
-          showGraph();
+      $(document).ready(function () {
+            showGraph();
       });
-
 
       function showGraph() {
         {
@@ -163,6 +162,120 @@
                   display: false
                 },
                 cutoutPercentage: 80,
+              }
+            });
+          });
+        }
+      }
+    </script>
+
+    <!-- area chart -->
+    <script>
+      $(document).ready(function () {
+        showGraph2();
+      });
+
+      function showGraph2() {
+        {
+          $.post("data_areachart.php",
+          function (data) {
+            console.log(data);
+            var tanggal = [];
+            var total = [];
+
+            for(var i in data) {
+              tanggal.push(data[i].tanggal);
+              total.push(data[i].total);
+            }
+
+            var chartdata = {
+              labels: tanggal,
+              datasets: [{
+                label: "Pendapatan",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: total
+              }]
+            };
+
+            var graphTarget = $("#myAreaChart");
+
+            var barGraph = new Chart(graphTarget, {
+              type: 'line',
+              data: chartdata,
+              options: {
+                maintainAspectRatio: false,
+                layout: {
+                  padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                  }
+                },
+                scales: {
+                  xAxes: [{
+                    time: {
+                      unit: 'date'
+                    },
+                    gridLines: {
+                      display: false,
+                      drawBorder: false
+                    },
+                    ticks: {
+                      maxTicksLimit: 7
+                    }
+                  }],
+                  yAxes: [{
+                    ticks: {
+                      maxTicksLimit: 5,
+                      padding: 10,
+                      callback: function(value, index, values) {
+                        return 'Rp' + number_format(value);
+                      }
+                    },
+                    gridLines: {
+                      color: "rgb(234, 236, 244)",
+                      zeroLineColor: "rgb(234, 236, 244)",
+                      drawBorder: false,
+                      borderDash: [2],
+                      zeroLineBorderDash: [2]
+                    }
+                  }],
+                },
+                legend: {
+                  display: false
+                },
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  titleMarginBottom: 10,
+                  titleFontColor: '#6e707e',
+                  titleFontSize: 14,
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: false,
+                  intersect: false,
+                  mode: 'index',
+                  caretPadding: 10,
+                  callbacks: {
+                    label: function(tooltipItem, chart) {
+                      var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                      return datasetLabel + ': Rp' + number_format(tooltipItem.yLabel);
+                    }
+                  }
+                }
               }
             });
           });

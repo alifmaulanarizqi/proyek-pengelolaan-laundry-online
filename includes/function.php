@@ -327,8 +327,8 @@
               <td>$laundry_weight</td>
               <td>$transaction_date</td>
               <td>Rp $transaction_price</td>
-              <td><a href='transaksi.php?source=edit_transaksi&edit_transaksi_id=$transaction_id'>Edit</a></td>
-              <td><a href='transaksi.php?delete=$transaction_id&cust_id=$customer_id'>Delete</a></td>
+              <td><a href='transaksi.php?source=edit_transaksi&edit_transaksi_id=$transaction_id&tanggal_dulu=$transaction_date&harga_dulu=$transaction_price&produk_dulu=$transaction_product'>Edit</a></td>
+              <td><a href='transaksi.php?delete=$transaction_id&cust_id=$customer_id&produk_id=$transaction_product&harga=$transaction_price&tanggal=$transaction_date'>Delete</a></td>
             </tr>";
     }
   }
@@ -340,6 +340,10 @@
     if(isset($_GET["delete"])) {
       $the_transaction_id = $_GET["delete"];
       $the_customer_id = $_GET["cust_id"];
+      $the_product_id = $_GET["produk_id"];
+      $the_product_price = $_GET["harga"];
+      $the_product_price = str_replace(',', '', $the_product_price);
+      $the_transaction_date = $_GET["tanggal"];
 
       $query = "SELECT jml_transaksi FROM customers WHERE id='$the_customer_id'";
       $customer_total_transaction_query = mysqli_query($connection, $query);
@@ -352,6 +356,16 @@
       } else {
         $query = "UPDATE customers SET jml_transaksi = $customer_total_transaction-1 WHERE id='$the_customer_id'";
         $result = mysqli_query($connection, $query);
+      }
+
+      $query = "UPDATE products SET jml_transaksi = (SELECT jml_transaksi FROM products WHERE id = '$the_product_id')-1 WHERE id = '$the_product_id'";
+      $result = mysqli_query($connection, $query);
+
+      $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$the_transaction_date')-$the_product_price) WHERE tanggal = '$the_transaction_date'";
+      $result = mysqli_query($connection, $query);
+
+      if(!$result) {
+        die(mysqli_error($connection));
       }
 
       $query = "DELETE FROM transactions WHERE id = '$the_transaction_id'";
@@ -402,7 +416,8 @@
 
   // add transaction
   function addTransaction() {
-    global $field_customer_name; global $field_customer_email; global $field_product; global $field_laundry_weight; global $field_date; global $connection;
+    global $field_customer_name; global $field_customer_email; global $field_product; global $field_laundry_weight; global $field_date;
+    global $connection;
 
     if(isset($_POST["submit"])) {
       $query = "SELECT harga FROM products WHERE id = '$field_product'";
@@ -419,17 +434,23 @@
 
       $harga_produk *= $field_laundry_weight;
       $query_add_transaction = "INSERT INTO transactions(id_produk, id_customer, berat_laundry, tanggal, harga) VALUES ('$field_product', '$customer_id', '$field_laundry_weight', '$field_date', '$harga_produk')";
+      $result = mysqli_query($connection, $query_add_transaction);
 
       $query = "UPDATE products SET jml_transaksi = (SELECT jml_transaksi From products WHERE id = '$field_product')+1 WHERE id = '$field_product'";
       $update_number_of_product_transaction = mysqli_query($connection, $query);
 
-      $result = mysqli_query($connection, $query_add_transaction);
-      header("Location: transaksi.php");
+      $query = "SELECT tanggal FROM total_transactions WHERE tanggal = '$field_date'";
+      $select_date_query = mysqli_query($connection, $query);
+      $row = mysqli_fetch_assoc($select_date_query);
 
-      if(!$result) {
-        die("Query FAILED " . mysqli_error($connection));
+      if($row === null) {
+        $query = "INSERT INTO total_transactions(tanggal, total) VALUES ('$field_date', $harga_produk)";
+      } else {
+        $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$field_date')+$harga_produk) WHERE tanggal = '$field_date'";
       }
 
+      $update_total_transactions_query = mysqli_query($connection, $query);
+      header("Location: transaksi.php");
     }
   }
 
@@ -611,13 +632,16 @@
 
   // edit transaction
   function editTransaction() {
-    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $product_id; global $laundry_weight; global $notifsuccess;
+    global $connection; global $transaction_id; global $customer_name; global $customer_email; global $product_id; global $laundry_weight;
+    global $notifsuccess;
 
     if(isset($_POST["edit-transaksi"])) {
       $the_customer_name = $_POST["nama"];
       $the_customer_email = $_POST["email"];
       $produk_id = $_POST["product"];
       $laundry_weight = $_POST["berat"];
+      $new_transaction_date = $_POST["tanggal-transaksi"];
+      $new_transaction_date = date('Y-m-d', strtotime($new_transaction_date));
 
       if($customer_name == $the_customer_name && $customer_email == $the_customer_email) {
         $query = "SELECT harga FROM products WHERE id = '$produk_id'";
@@ -626,7 +650,7 @@
         $product_price = $row["harga"];
         $transaction_product_price = $product_price * $laundry_weight;
 
-        $query = "UPDATE transactions SET id_produk = '$produk_id', berat_laundry = $laundry_weight, tanggal = now(), harga = $transaction_product_price WHERE id = $transaction_id";
+        $query = "UPDATE transactions SET id_produk = '$produk_id', berat_laundry = $laundry_weight, tanggal = '$new_transaction_date', harga = $transaction_product_price WHERE id = $transaction_id";
         $update_post_query = mysqli_query($connection, $query);
       } else {
         $query = "SELECT * FROM customers WHERE nama = '$customer_name' AND email = '$customer_email'";
@@ -672,6 +696,58 @@
 
           $query = "INSERT INTO customers(nama, jml_transaksi, email) VALUES ('$the_customer_name', '1', '$the_customer_email')";
           $add_customer_query = mysqli_query($connection, $query);
+        }
+
+      }
+
+      if(isset($_GET["edit_transaksi_id"])) {
+        $tanggal_dulu = $_GET["tanggal_dulu"];
+        $harga_dulu = $_GET["harga_dulu"];
+        $harga_dulu = str_replace(',', '', $harga_dulu);
+        $produk_dulu = $_GET["produk_dulu"];
+
+        if($tanggal_dulu == $new_transaction_date) {
+          $query = "UPDATE total_transactions SET total = (((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu)+$transaction_product_price) WHERE tanggal = '$tanggal_dulu'";
+          $update_total_transactions_query = mysqli_query($connection, $query);
+
+          if(!$update_total_transactions_query) {
+            die(mysqli_error($connection));
+          }
+        } else {
+          $query = "SELECT tanggal FROM total_transactions WHERE tanggal = '$new_transaction_date'";
+          $select_date_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($select_date_query);
+
+          if($row === null) {
+            $query = "INSERT INTO total_transactions(tanggal, total) VALUES ('$new_transaction_date', $transaction_product_price)";
+            $insert_total_transactions_query = mysqli_query($connection, $query);
+
+            $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu) WHERE tanggal = '$tanggal_dulu'";
+            $update_total_transactions_query = mysqli_query($connection, $query);
+          } else {
+            $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu) WHERE tanggal = '$tanggal_dulu'";
+            $update_total_transactions_query = mysqli_query($connection, $query);
+
+            if(!$update_total_transactions_query) {
+              die(mysqli_error($connection));
+            }
+
+            $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$new_transaction_date')+$transaction_product_price) WHERE tangal = '$new_transaction_date'";
+            $update_total_transactions_query = mysqli_query($connection, $query);
+
+            if(!$update_total_transactions_query) {
+              die(mysqli_error($connection));
+            }
+          }
+
+        }
+
+        if($produk_id != $produk_dulu) {
+          $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_dulu')-1) WHERE id = '$produk_dulu'";
+          $update_total_transactions_query = mysqli_query($connection, $query);
+
+          $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_id')+1) WHERE id = '$produk_id'";
+          $update_total_transactions_query = mysqli_query($connection, $query);
         }
 
       }
