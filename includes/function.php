@@ -871,7 +871,7 @@
               <td>$employee_gender</td>
               <td>$employee_start_date</td>
               <td>Rp $employee_salary</td>
-              <td><a href='pegawai.php?source=edit_pegawai&edit_pegawai_id=$employee_id'>Edit</a></td>
+              <td><a href='pegawai.php?source=edit_pegawai&edit_pegawai_id=$employee_id&nama_dulu=$employee_name&email_dulu=$employee_email&posisi_dulu=$employee_position'>Edit</a></td>
               <td><a href='pegawai.php?delete-pegawai=$employee_id'>Delete</a></td>
             </tr>";
     }
@@ -900,10 +900,13 @@
   // get value of edit employee
   function getEditEmployeeValue() {
     global $connection; global $employee_name; global $employee_email; global $employee_age; global $employee_gender; global $employee_position;
-    global $employee_start_date; global $employee_salary; global $employee_id;
+    global $employee_start_date; global $employee_salary; global $employee_id; global $nama_dulu; global $email_dulu; global $posisi_dulu;
 
     if(isset($_GET["edit_pegawai_id"])) {
       $employee_id = $_GET["edit_pegawai_id"];
+      $nama_dulu = $_GET["nama_dulu"];
+      $email_dulu = $_GET["email_dulu"];
+      $posisi_dulu = $_GET["posisi_dulu"];
     }
 
     $query = "SELECT * FROM employees WHERE id = $employee_id";
@@ -923,6 +926,7 @@
   function editEmployee() {
     global $connection; global $employee_name; global $employee_email; global $employee_age; global $employee_gender; global $employee_position;
     global $employee_start_date; global $employee_salary; global $employee_id; global $check_employee; global $notifsuccess;
+    global $nama_dulu; global $email_dulu; global $posisi_dulu;
 
     if(isset($_POST["edit-pegawai"])) {
       $the_employee_name = $_POST["nama"];
@@ -943,8 +947,41 @@
         $row = mysqli_fetch_assoc($select_position_id_query);
         $the_employee_position2 = $row["id"];
 
-        $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
-        $update_employee_query = mysqli_query($connection, $query);
+        $query = "SELECT posisi FROM positions WHERE id = $posisi_dulu";
+        $select_position_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_position_query);
+        $nama_posisi_dulu = $row["posisi"];
+
+        if($the_employee_position == "Admin") {
+          $admin_password = "admin";
+          $hashFormat = "$2y$10$";
+          $salt = "usesomesillystringforsalt";
+          $hashFormatAndSalt = $hashFormat . $salt;
+          $admin_password = crypt($admin_password, $hashFormatAndSalt);
+
+          $query = "SELECT DISTINCT nama_laundry FROM employees WHERE NOT nama_laundry = ''";
+          $select_nama_laundry_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($select_nama_laundry_query);
+          $laundry_name = $row["nama_laundry"];
+
+          $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary, username = '$the_employee_name', password = '$admin_password', nama_laundry = '$laundry_name' WHERE id = $employee_id";
+          $update_employee_query = mysqli_query($connection, $query);
+        } else {
+          // if($the_employee_position == "Admin") {
+          //   $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
+          //   $update_employee_query = mysqli_query($connection, $query);
+          // }
+
+          $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
+          $update_employee_query = mysqli_query($connection, $query);
+        }
+
+        if($nama_posisi_dulu == "Admin") {
+          if($the_employee_position != "Admin") {
+            $query = "UPDATE employees SET username = '', password = '', nama_laundry = '' WHERE id = $employee_id";
+            $update_employee_query = mysqli_query($connection, $query);
+          }
+        }
 
         $notifsuccess = "Data pegawai berhasil diubah";
 
@@ -956,7 +993,48 @@
         $employee_start_date = "";
         $employee_salary = "";
       } else {
-        $check_employee = "Pegawai sudah terdaftar";
+        if($the_employee_name == $nama_dulu && $the_employee_email == $email_dulu) {
+          $query = "SELECT id FROM positions WHERE posisi = '$the_employee_position'";
+          $select_position_id_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($select_position_id_query);
+          $the_employee_position2 = $row["id"];
+
+          if($the_employee_position == "Admin") {
+            $admin_password = "admin";
+            $hashFormat = "$2y$10$";
+            $salt = "usesomesillystringforsalt";
+            $hashFormatAndSalt = $hashFormat . $salt;
+            $admin_password = crypt($admin_password, $hashFormatAndSalt);
+
+            $query = "SELECT DISTINCT nama_laundry FROM employees WHERE NOT nama_laundry = ''";
+            $select_nama_laundry_query = mysqli_query($connection, $query);
+            $row = mysqli_fetch_assoc($select_nama_laundry_query);
+            $laundry_name = $row["nama_laundry"];
+
+            $query = "UPDATE employees SET posisi = $the_employee_position2, umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary, username = '$the_employee_name', password = '$admin_password', nama_laundry = '$laundry_name' WHERE id = $employee_id";
+            $update_employee_query = mysqli_query($connection, $query);
+          } else {
+            $query = "UPDATE employees SET posisi = $the_employee_position2, umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
+            $update_employee_query = mysqli_query($connection, $query);
+          }
+
+          $query = "SELECT posisi FROM positions WHERE id = $posisi_dulu";
+          $select_position_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($select_position_query);
+          $nama_posisi_dulu = $row["posisi"];
+
+          if($nama_posisi_dulu == "Admin") {
+            if($the_employee_position != "Admin") {
+              $query = "UPDATE employees SET username = '', password = '', nama_laundry = '' WHERE id = $employee_id";
+              $update_employee_query = mysqli_query($connection, $query);
+            }
+          }
+
+          $notifsuccess = "Data pegawai berhasil diubah";
+        } else {
+          $check_employee = "Pegawai sudah terdaftar";
+        }
+
       }
 
     }

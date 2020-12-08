@@ -10,6 +10,9 @@
   $employee_salary = "";
   $check_employee = "";
   $notifsuccess = "";
+  $nama_dulu = "";
+  $email_dulu = "";
+  $posisi_dulu = "";
 
   getEditEmployeeValue();
   editEmployee();
