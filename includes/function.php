@@ -3,6 +3,36 @@
 
 <?php
 
+  function getMonthName($month_number) {
+    if($month_number == "01") {
+      $month_number = "January";
+    } else if($month_number == "02") {
+      $month_number = "February";
+    } else if($month_number == "03") {
+      $month_number = "March";
+    } else if($month_number == "04") {
+      $month_number = "April";
+    } else if($month_number == "05") {
+      $month_number = "May";
+    } else if($month_number == "06") {
+      $month_number = "June";
+    } else if($month_number == "07") {
+      $month_number = "July";
+    } else if($month_number == "08") {
+      $month_number = "August";
+    } else if($month_number == "09") {
+      $month_number = "September";
+    } else if($month_number == "10") {
+      $month_number = "October";
+    } else if($month_number == "11") {
+      $month_number = "November";
+    } else if($month_number == "12") {
+      $month_number = "December";
+    }
+
+    return $month_number;
+  }
+
 // index.php
   // count number of employees
   function getTotalEmployees() {
@@ -364,9 +394,10 @@
       $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$the_transaction_date')-$the_product_price) WHERE tanggal = '$the_transaction_date'";
       $result = mysqli_query($connection, $query);
 
-      if(!$result) {
-        die(mysqli_error($connection));
-      }
+      $month_transaction = substr($the_transaction_date, 5, 2);
+      $month_transaction = getMonthName($month_transaction);
+      $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction')-$the_product_price) WHERE bulan = '$month_transaction'";
+      $result = mysqli_query($connection, $query);
 
       $query = "DELETE FROM transactions WHERE id = '$the_transaction_id'";
       $result = mysqli_query($connection, $query);
@@ -443,13 +474,23 @@
       $select_date_query = mysqli_query($connection, $query);
       $row = mysqli_fetch_assoc($select_date_query);
 
+      $month_transaction = substr($field_date, 5, 2);
+      $month_transaction = getMonthName($month_transaction);
+
       if($row === null) {
-        $query = "INSERT INTO total_transactions(tanggal, total) VALUES ('$field_date', $harga_produk)";
+        $query = "INSERT INTO total_transactions(tanggal, total, bulan) VALUES ('$field_date', $harga_produk, '$month_transaction')";
+        $update_total_transactions_query = mysqli_query($connection, $query);
+
+        $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT total_per_bulan = '')+$harga_produk) WHERE bulan = '$month_transaction'";
+        $update_total_per_month_query = mysqli_query($connection, $query);
       } else {
         $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$field_date')+$harga_produk) WHERE tanggal = '$field_date'";
+        $update_total_transactions_query = mysqli_query($connection, $query);
+
+        $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction')+$harga_produk) WHERE bulan = '$month_transaction'";
+        $update_total_per_month_query = mysqli_query($connection, $query);
       }
 
-      $update_total_transactions_query = mysqli_query($connection, $query);
       header("Location: transaksi.php");
     }
   }
@@ -967,11 +1008,6 @@
           $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary, username = '$the_employee_name', password = '$admin_password', nama_laundry = '$laundry_name' WHERE id = $employee_id";
           $update_employee_query = mysqli_query($connection, $query);
         } else {
-          // if($the_employee_position == "Admin") {
-          //   $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
-          //   $update_employee_query = mysqli_query($connection, $query);
-          // }
-
           $query = "UPDATE employees SET nama = '$the_employee_name', posisi = $the_employee_position2, email = '$the_employee_email', umur = $the_employee_age, gender = '$the_employee_gender', start_date = '$the_employee_start_date', gaji = $the_employee_salary WHERE id = $employee_id";
           $update_employee_query = mysqli_query($connection, $query);
         }
