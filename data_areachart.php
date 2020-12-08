@@ -5,9 +5,13 @@
 	$sqlQuery = "SELECT tanggal, total FROM total_transactions";
 	$result = mysqli_query($conn, $sqlQuery);
 
+	$current_month_number = date("m");
+
 	$data = array();
 	foreach ($result as $row) {
-		$data[] = $row;
+		if(substr($row["tanggal"],5,2) == $current_month_number) {
+			$data[] = $row;
+		}
 	}
 
 	mysqli_close($conn);
