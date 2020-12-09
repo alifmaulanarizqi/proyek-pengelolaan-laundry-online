@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2020 at 05:22 PM
+-- Generation Time: Dec 09, 2020 at 09:45 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -39,7 +39,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `nama`, `jml_transaksi`, `email`) VALUES
-(41, 'test1', 2, 'test1@email.com');
+(50, 'test1', 3, 'test1@email.com');
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `nama`, `posisi`, `email`, `umur`, `gender`, `start_date`, `gaji`, `username`, `password`, `nama_laundry`) VALUES
-(8, 'test4', '7', 'test4@email.com', 18, 'wanita', '2020-12-04', '300000', '', '', ''),
+(8, 'test4', '7', 'test4@email.com', 19, 'wanita', '2020-12-04', '300000', '', '', ''),
 (9, 'test2', '7', 'test2@email.com', 18, 'pria', '2020-12-04', '250000', '', '', ''),
 (28, 'alif', '6', 'alifdeadpool333@gmail.com', 20, 'pria', '2020-12-06', '400000', 'alif', '$2y$10$usesomesillystringforeTeroxHu44nz6r2P7zLyMaCiQNdWofN.', 'Laundry Dong'),
 (29, 'test1', '6', 'test1@email.com', 19, 'pria', '2020-12-06', '300000', 'test1', '$2y$10$usesomesillystringforeyrv6JhTDfkc8S9AuhIexKF6NNhnUEOm', 'Laundry Dong');
@@ -109,8 +109,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `nama`, `harga`, `keterangan`, `jml_transaksi`) VALUES
-('LNDRY1', 'Produk Laundry 1', '10000', 'Cuci + Setrika', 1),
-('LNDRY2', 'Produk Laundry 2', '7000', 'Cuci', 1),
+('LNDRY1', 'Produk Laundry 1', '10000', 'Cuci + Setrika', 3),
+('LNDRY2', 'Produk Laundry 2', '7000', 'Cuci', 0),
 ('LNDRY3', 'Produk Laundry 3', '6000', 'Setrika', 0),
 ('LNDRY4', 'Produk Laundry 4', '13000', 'Cuci + Setrika + Cepat', 0),
 ('LNDRY5', 'Produk Laundry 5', '15000', 'Cuci + Setrika + Cepat + Wangi', 0);
@@ -123,17 +123,20 @@ INSERT INTO `products` (`id`, `nama`, `harga`, `keterangan`, `jml_transaksi`) VA
 
 CREATE TABLE `total_transactions` (
   `tanggal` date NOT NULL,
-  `total` decimal(10,0) NOT NULL
+  `total` decimal(10,0) NOT NULL,
+  `bulan` varchar(20) NOT NULL,
+  `total_per_bulan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `total_transactions`
 --
 
-INSERT INTO `total_transactions` (`tanggal`, `total`) VALUES
-('2020-12-06', '42000'),
-('2020-12-07', '0'),
-('2020-12-08', '50000');
+INSERT INTO `total_transactions` (`tanggal`, `total`, `bulan`, `total_per_bulan`) VALUES
+('2020-11-01', '20000', 'November', '20000'),
+('2020-12-09', '10000', 'December', '10000'),
+('2020-12-10', '0', 'December', '10000'),
+('2021-02-01', '10000', 'February', '10000');
 
 -- --------------------------------------------------------
 
@@ -155,8 +158,9 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `id_produk`, `id_customer`, `berat_laundry`, `tanggal`, `harga`) VALUES
-(57, 'LNDRY2', 41, 6, '2020-12-06', '42000'),
-(58, 'LNDRY1', 41, 5, '2020-12-08', '50000');
+(117, 'LNDRY1', 50, 1, '2020-12-09', '10000'),
+(118, 'LNDRY1', 50, 1, '2021-02-01', '10000'),
+(129, 'LNDRY1', 50, 2, '2020-11-01', '20000');
 
 --
 -- Indexes for dumped tables
@@ -206,7 +210,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `employees`
@@ -224,7 +228,7 @@ ALTER TABLE `positions`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
