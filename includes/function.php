@@ -481,8 +481,18 @@
         $query = "INSERT INTO total_transactions(tanggal, total, bulan) VALUES ('$field_date', $harga_produk, '$month_transaction')";
         $update_total_transactions_query = mysqli_query($connection, $query);
 
-        $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT total_per_bulan = '')+$harga_produk) WHERE bulan = '$month_transaction'";
-        $update_total_per_month_query = mysqli_query($connection, $query);
+        $query = "SELECT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction'";
+        $select_total_per_month_query = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($select_total_per_month_query);
+        $total_per_month = $row["total_per_bulan"];
+
+        if($total_per_month == "" || $total_per_month == 0) {
+          $query = "UPDATE total_transactions SET total_per_bulan = $harga_produk WHERE bulan = '$month_transaction'";
+          $update_total_per_month_query = mysqli_query($connection, $query);
+        } else {
+          $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))+$harga_produk) WHERE bulan = '$month_transaction'";
+          $update_total_per_month_query = mysqli_query($connection, $query);
+        }
       } else {
         $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$field_date')+$harga_produk) WHERE tanggal = '$field_date'";
         $update_total_transactions_query = mysqli_query($connection, $query);
@@ -747,13 +757,17 @@
         $harga_dulu = str_replace(',', '', $harga_dulu);
         $produk_dulu = $_GET["produk_dulu"];
 
+        $month_transaction = substr($new_transaction_date, 5, 2);
+        $month_transaction = getMonthName($month_transaction);
+        $bulan_dulu_transaksi = substr($tanggal_dulu, 5, 2);
+        $bulan_dulu_transaksi = getMonthName($bulan_dulu_transaksi);
+
         if($tanggal_dulu == $new_transaction_date) {
           $query = "UPDATE total_transactions SET total = (((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu)+$transaction_product_price) WHERE tanggal = '$tanggal_dulu'";
           $update_total_transactions_query = mysqli_query($connection, $query);
 
-          if(!$update_total_transactions_query) {
-            die(mysqli_error($connection));
-          }
+          $query = "UPDATE total_transactions SET total_per_bulan = (((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))-$harga_dulu)+$transaction_product_price) WHERE bulan = '$month_transaction'";
+          $update_total_per_month_query = mysqli_query($connection, $query);
         } else {
           $query = "SELECT tanggal FROM total_transactions WHERE tanggal = '$new_transaction_date'";
           $select_date_query = mysqli_query($connection, $query);
@@ -769,28 +783,41 @@
             $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu) WHERE tanggal = '$tanggal_dulu'";
             $update_total_transactions_query = mysqli_query($connection, $query);
 
-            if(!$update_total_transactions_query) {
-              die(mysqli_error($connection));
-            }
-
             $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$new_transaction_date')+$transaction_product_price) WHERE tangal = '$new_transaction_date'";
             $update_total_transactions_query = mysqli_query($connection, $query);
+          }
 
-            if(!$update_total_transactions_query) {
-              die(mysqli_error($connection));
-            }
+          $query = "SELECT bulan FROM total_transactions WHERE bulan = '$month_transaction'";
+          $select_date_query = mysqli_query($connection, $query);
+          $row = mysqli_fetch_assoc($select_date_query);
+
+          if($row === null) {
+            $query = "UPDATE total_transactions SET bulan = '$month_transaction', total_per_bulan = $transaction_product_price WHERE tanggal = '$new_transaction_date'";
+            $update_transactions_query = mysqli_query($connection, $query);
+
+            $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$bulan_dulu_transaksi' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))-$harga_dulu) WHERE bulan = '$bulan_dulu_transaksi'";
+            $update_total_per_month_query = mysqli_query($connection, $query);
+          } else {
+            $query = "UPDATE total_transactions SET bulan = '$month_transaction' WHERE tanggal = '$new_transaction_date'";
+            $update_transaction_date_query = mysqli_query($connection, $query);
+
+            $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))+$transaction_product_price) WHERE bulan = '$month_transaction'";
+            $update_total_per_month_query = mysqli_query($connection, $query);
+
+            $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$bulan_dulu_transaksi' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))-$harga_dulu) WHERE bulan = '$bulan_dulu_transaksi'";
+            $update_total_per_month_query = mysqli_query($connection, $query);
           }
 
         }
 
-        if($produk_id != $produk_dulu) {
-          $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_dulu')-1) WHERE id = '$produk_dulu'";
-          $update_total_transactions_query = mysqli_query($connection, $query);
+      }
 
-          $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_id')+1) WHERE id = '$produk_id'";
-          $update_total_transactions_query = mysqli_query($connection, $query);
-        }
+      if($produk_id != $produk_dulu) {
+        $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_dulu')-1) WHERE id = '$produk_dulu'";
+        $update_total_transactions_query = mysqli_query($connection, $query);
 
+        $query = "UPDATE products SET jml_transaksi = ((SELECT jml_transaksi FROM products WHERE id = '$produk_id')+1) WHERE id = '$produk_id'";
+        $update_total_transactions_query = mysqli_query($connection, $query);
       }
 
       $notifsuccess = "Transaksi berhasil diubah";
@@ -799,6 +826,7 @@
       $product_id = "";
       $laundry_weight = "";
     }
+
   }
 
 // end of edit_transaksi.php
