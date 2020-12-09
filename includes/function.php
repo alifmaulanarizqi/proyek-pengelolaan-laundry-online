@@ -783,7 +783,7 @@
             $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$tanggal_dulu')-$harga_dulu) WHERE tanggal = '$tanggal_dulu'";
             $update_total_transactions_query = mysqli_query($connection, $query);
 
-            $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$new_transaction_date')+$transaction_product_price) WHERE tangal = '$new_transaction_date'";
+            $query = "UPDATE total_transactions SET total = ((SELECT total FROM total_transactions WHERE tanggal = '$new_transaction_date')+$transaction_product_price) WHERE tanggal = '$new_transaction_date'";
             $update_total_transactions_query = mysqli_query($connection, $query);
           }
 
@@ -801,7 +801,7 @@
             $query = "UPDATE total_transactions SET bulan = '$month_transaction' WHERE tanggal = '$new_transaction_date'";
             $update_transaction_date_query = mysqli_query($connection, $query);
 
-            $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))+$transaction_product_price) WHERE bulan = '$month_transaction'";
+            $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$month_transaction' AND NOT total_per_bulan = '')+$transaction_product_price) WHERE bulan = '$month_transaction'";
             $update_total_per_month_query = mysqli_query($connection, $query);
 
             $query = "UPDATE total_transactions SET total_per_bulan = ((SELECT DISTINCT total_per_bulan FROM total_transactions WHERE bulan = '$bulan_dulu_transaksi' AND NOT (total_per_bulan = '' OR total_per_bulan = 0))-$harga_dulu) WHERE bulan = '$bulan_dulu_transaksi'";
