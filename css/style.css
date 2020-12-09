@@ -173,3 +173,16 @@ input[type=number] {
   }
 }
 /* end of footer */
+
+/* tabel_pelanggan.php */
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#footerPelanggan {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+/* end tabel_pelanggan.php */

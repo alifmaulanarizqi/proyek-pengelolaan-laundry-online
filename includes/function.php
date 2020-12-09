@@ -52,6 +52,38 @@
     $total_customers = mysqli_fetch_assoc($select_all_customers_query)["number_customers"];
   }
 
+  // get highest income
+  function highestIncome() {
+    global $connection; global $highest_income; global $highest_income_month;
+
+    $query = "SELECT MAX(total_per_bulan) AS highest_value FROM total_transactions";
+    $select_highest_income_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_highest_income_query);
+    $highest_income = $row["highest_value"];
+    $highest_income = number_format($highest_income);
+
+    $query = "SELECT bulan FROM total_transactions WHERE total_per_bulan = (SELECT MAX(total_per_bulan) FROM total_transactions)";
+    $select_highest_income_month_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_highest_income_month_query);
+    $highest_income_month = $row["bulan"];
+  }
+
+  // get lowest income
+  function lowestIncome() {
+    global $connection; global $lowest_income; global $lowest_income_month;
+
+    $query = "SELECT MIN(total_per_bulan) AS lowest_value FROM total_transactions";
+    $select_lowest_income_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_lowest_income_query);
+    $lowest_income = $row["lowest_value"];
+    $lowest_income = number_format($lowest_income);
+
+    $query = "SELECT bulan FROM total_transactions WHERE total_per_bulan = (SELECT MIN(total_per_bulan) FROM total_transactions)";
+    $select_lowest_income_month_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($select_lowest_income_month_query);
+    $lowest_income_month = $row["bulan"];
+  }
+
   // display recent transactions
   function displayRecentTransactions() {
     global $connection;

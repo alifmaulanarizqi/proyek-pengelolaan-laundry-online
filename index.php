@@ -21,6 +21,20 @@
       getTotalCustomers();
     ?>
 
+    <!-- get highest income -->
+    <?php
+      $highest_income = 0;
+      $highest_income_month = "";
+      highestIncome();
+    ?>
+
+    <!-- get lowest income -->
+    <?php
+      $lowest_income = 0;
+      $lowest_income_month = "";
+      lowestIncome();
+    ?>
+
     <section>
       <div class="container-fluid">
         <div class="row">
@@ -33,7 +47,7 @@
                       <i class="fas fa-chart-line fa-3x text-success"></i>
                       <div class="text-right text-secondary">
                         <h6><strong>Pendapatan Tertinggi</strong></h6>
-                        <h6>Januari, Rp 500.000</h6>
+                        <h6><?php echo "$highest_income_month Rp $highest_income"; ?></h6>
                       </div>
                     </div>
                   </div>
@@ -52,7 +66,7 @@
                       <i class="fas fa-sort-amount-down fa-3x text-danger"></i>
                       <div class="text-right text-secondary">
                         <h6><strong>Pendapatan Terendah</strong></h6>
-                        <h6>Februari, Rp 200.000</h6>
+                        <h6><?php echo "$lowest_income_month Rp $lowest_income"; ?></h6>
                       </div>
                     </div>
                   </div>
@@ -211,8 +225,115 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
     <script src="js/script.js"></script>
-    <!-- bar chart script -->
-    <script src="js/chart/bar-chart.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/stylechart.js"></script>
+
+    <!-- bar chart -->
+    <script>
+      $(document).ready(function () {
+        showGraph();
+      });
+
+      function showGraph() {
+        {
+          $.post("data_barchart.php",
+          function (data) {
+            console.log(data);
+            var bulan = [];
+            var total_per_bulan = [];
+
+            for(var i in data) {
+              bulan.push(data[i].bulan);
+              total_per_bulan.push(data[i].total_per_bulan);
+            }
+
+            var chartdata = {
+              labels: bulan,
+              datasets: [{
+                label: "Pendapatan",
+                backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                data: total_per_bulan
+              }]
+            };
+
+            var graphTarget = $("#myBarChart");
+
+            var barGraph = new Chart(graphTarget, {
+              type: 'bar',
+              data: chartdata,
+              options: {
+                maintainAspectRatio: true,
+                layout: {
+                  padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                  }
+                },
+                scales: {
+                  xAxes: [{
+                    time: {
+                      unit: 'month'
+                    },
+                    gridLines: {
+                      display: false,
+                      drawBorder: false
+                    },
+                    ticks: {
+                      maxTicksLimit: 7
+                    }
+                  }],
+                  yAxes: [{
+                    ticks: {
+                      maxTicksLimit: 5,
+                      beginAtZero: true,
+                      padding: 10,
+                      callback: function(value, index, values) {
+                        return 'Rp' + number_format(value);
+                      }
+                    },
+                    gridLines: {
+                      color: "rgb(234, 236, 244)",
+                      zeroLineColor: "rgb(234, 236, 244)",
+                      drawBorder: false,
+                      borderDash: [2],
+                      zeroLineBorderDash: [2]
+                    }
+                  }],
+                },
+                legend: {
+                  display: false
+                },
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  titleMarginBottom: 10,
+                  titleFontColor: '#6e707e',
+                  titleFontSize: 14,
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: false,
+                  intersect: false,
+                  mode: 'index',
+                  caretPadding: 10,
+                  callbacks: {
+                    label: function(tooltipItem, chart) {
+                      var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                      return datasetLabel + ': Rp' + number_format(tooltipItem.yLabel);
+                    }
+                  }
+                }
+              }
+            });
+          });
+        }
+      }
+    </script>
 
   </body>
   </html>
