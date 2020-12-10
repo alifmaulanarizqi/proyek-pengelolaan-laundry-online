@@ -6,7 +6,7 @@
         <div class="col-sm-12 mb-0">
           <div class="card shadow">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-muted">Data Pegawai</h6>
+              <h5 class="m-0 font-weight-bold text-muted">Data Pegawai</h5>
             </div>
             <div class="card-body pb-0">
               <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">
@@ -75,7 +75,7 @@
         <div class="col-sm-12 mb-0">
           <div class="card shadow">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-muted">Tambah Pegawai</h6>
+              <h5 class="m-0 font-weight-bold text-muted">Tambah Pegawai</h5>
             </div>
             <div class="card-body pb-0">
               <form action="" method="post">
@@ -171,7 +171,7 @@
         <div class="col-xl-6 col-lg-12 col-sm-12 mb-0">
           <div class="card shadow">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-muted">Tambah Posisi</h6>
+              <h5 class="m-0 font-weight-bold text-muted">Tambah Posisi</h5>
             </div>
             <div class="card-body pb-0 col-sm-12">
               <form action="" method="post">
@@ -197,7 +197,7 @@
         <div class="col-xl-6 col-lg-12 col-sm-12 mb-0 mt-xl-0 mt-5">
           <div class="card shadow">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-muted">Data Posisi</h6>
+              <h5 class="m-0 font-weight-bold text-muted">Data Posisi</h5>
             </div>
             <div class="card-body pb-0 col-sm-12">
               <table id="dtBasicExample" class="table table-striped table-bordered table-style-css" style="width:100%">

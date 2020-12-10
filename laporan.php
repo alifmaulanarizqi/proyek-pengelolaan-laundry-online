@@ -15,7 +15,7 @@
             <div class="col-sm-12 mb-0">
               <div class="card shadow">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-muted">Pendapatan Bulan Ini</h6>
+                  <h5 class="m-0 font-weight-bold text-muted">Pendapatan Bulan Ini</h5>
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
@@ -40,7 +40,7 @@
             <div class="col-xl-7 col-lg-12 mb-5">
               <div class="card shadow">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-muted">Pendapatan Bulanan</h6>
+                  <h5 class="m-0 font-weight-bold text-muted">Pendapatan Bulanan</h5>
                 </div>
                 <div class="card-body">
                   <div class="chart-bar">
@@ -55,7 +55,7 @@
             <div class="col-xl-5 col-lg-12 mb-0">
               <div class="card shadow">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-muted">Perbandingan Produk</h6>
+                  <h5 class="m-0 font-weight-bold text-muted">Perbandingan Produk</h5>
                 </div>
                 <div class="card-body">
                   <div class="chart-pie" id="chart-container">
