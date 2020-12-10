@@ -59,13 +59,13 @@
             <div class="col-lg-6 footer-font-size footer-center">
               <ul class="list-inline">
                 <li class="list-inline-item mr-2">
-                  <a href="about.php" class="text-dark link-style-none">About</a>
+                  <a href="halaman_footer/about.php" class="text-dark link-style-none">About</a>
                 </li>
                 <li class="list-inline-item mr-2">
-                  <a href="contact.php" class="text-dark link-style-none">Contact</a>
+                  <a href="halaman_footer/contact.php" class="text-dark link-style-none">Contact</a>
                 </li>
                 <li class="list-inline-item mr-2">
-                  <a href="support.php" class="text-dark link-style-none">Support</a>
+                  <a href="halaman_footer/support.php" class="text-dark link-style-none">Support</a>
                 </li>
               </ul>
             </div>

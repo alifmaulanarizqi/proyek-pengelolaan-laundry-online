@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contact Laundry Dong</title>
+	<title>Keuntungan Laundry Dong</title>
 	<style type="text/css">
 		.header1{
 			margin-left: 30px ;
@@ -55,6 +55,7 @@
 			padding: 10px;
 			position: absolute;
 		  bottom: 0;
+			width: 100%;
 		}
 	</style>
 </head>
@@ -62,26 +63,49 @@
 
 	<div class="page-container">
 		<div class="header1">
-			<h2><a href="index.php">Laundry Dong </a> | Contact</h2>
+			<h2><a href="../index.php">Laundry Dong </a> | Support</h2>
 		</div>
 
 		<div class="header2">
-			<h1>Contact</h1>
+			<h1>Halo, temukan jawaban masalah Anda disini!</h1>
+		</div>
+
+		<div class="badankiri">
+			<h2>Kategori</h2>
+				<p><a href="">Pengelolaan Transaksi</a></p>
+				<p><a href="">Pengelolaan Produk</a></p>
+				<p><a href="">Pengelolaan Pegawai</a></p>
+				<p><a href="">Pengelolaan Pelanggan</a></p>
+				<p><a href="">Laporan Pendapatan</a></p>
 		</div>
 
 		<div class="badankanan">
-			<h2>Kontak yang bisa dihubungi</h2>
-			<p>Jika Anda memiliki pertanyaan bisa hubungi email berikut : <a href="mailto:laundrydongcenter@gmail.com">laundrydongcenter@gmail.com</a></p>
+			<h2>Keuntungan Menggunakan LaundryDong</h2>
+			<p>
+				<b>Keuntungan Menggunakan Laundry Dong</b>
+				adalah sebagai penunjang atau aplikasi web yang dapat membantu kita sebagai
+				manager atau pemilik usaha laundry. Dimana didalamnya terdapat banyak fitur yang
+				sangat bermanfaat seperti : </p>
+				<ul style="text-indent: 100px">
+					<li>Mengawasi laundry yang sedang berlangsung</li>
+					<li>Mengetahui hal-hal terkait pendapatan</li>
+					<li>Menyimpan data pelanggan dan pegawai</li>
+					<li>Mendapatkan laporan seputar laundry selama 5 bulan terakhir</li>
+				</ul>
+			<p>
+				Masih banyak lagi keuntungan jika anda menggunakan Laundry Dong.
+
+			</p>
 		</div>
 
 		<footer>
 			<table>
 				<tr>
 					<td>
-						<a href="" style="color: white">About</a>
+						<a href="about.php" style="color: white">About</a>
 					</td>
 					<td>
-						<a href="" style="color: white">Contact</a>
+						<a href="contact.php" style="color: white">Contact</a>
 					</td>
 					<td>
 						<a href="support.php" style="color: white">Support</a>
