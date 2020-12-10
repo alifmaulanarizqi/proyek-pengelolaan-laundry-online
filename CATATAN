@@ -3,3 +3,5 @@ email: test1@email.com
 password: admin
 
 Setiap kali menambahkan pegawai yang berposisi sebagai Admin maka secara password defaultnya yaitu 'admin' (tanpa tanda petik). Admin bisa mengganti password di halaman pengaturan 
+
+Untuk database, silahkan Anda buat database dengan nama 'laundry' (tanpa tanda petik) lalu export laundry.sql ke dalamnya.
