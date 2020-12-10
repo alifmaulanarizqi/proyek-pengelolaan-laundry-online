@@ -1198,12 +1198,15 @@
       $position_id = $row["id"];
       $position_name = $row["posisi"];
 
-      echo "<tr>
-              <td>$position_id</td>
-              <td>$position_name</td>
-              <td><a href='pegawai.php?source=edit_posisi&edit_posisi_id=$position_id'>Edit</a></td>
-              <td><a href='pegawai.php?delete-posisi=$position_id'>Delete</a></td>
-            </tr>";
+      if($position_name != "Admin") {
+        echo "<tr>
+                <td>$position_id</td>
+                <td>$position_name</td>
+                <td><a href='pegawai.php?source=edit_posisi&edit_posisi_id=$position_id'>Edit</a></td>
+                <td><a href='pegawai.php?delete-posisi=$position_id'>Delete</a></td>
+              </tr>";
+      }
+
     }
   }
 

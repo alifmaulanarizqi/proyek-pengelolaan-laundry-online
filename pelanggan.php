@@ -22,6 +22,3 @@
       break;
   }
 ?>
-
-<!-- footer  -->
-<?php //include "includes/footer.php"; ?>

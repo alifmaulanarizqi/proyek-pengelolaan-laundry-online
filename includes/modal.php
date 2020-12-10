@@ -11,7 +11,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal">Tetap Disini</button>
-        <button type="button" class="btn btn-danger"><a href="logout.php" class="link-style-none text-white">Keluar</a></button>
+        <a href="logout.php" class="link-style-none text-white"><button type="button" class="btn btn-danger">Keluar</button></a>
       </div>
     </div>
   </div>
