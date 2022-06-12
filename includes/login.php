@@ -48,7 +48,11 @@
         $_SESSION["role"] = $user_role;
         $_SESSION["laundry_name"] = $laundry_name;
 
-        header("Location: ../index.php");
+        if($_SESSION["role"] != "Admin")
+          header("Location: ../login.php");
+        else
+          header("Location: ../index.php");
+
       } else {
         header("Location: ../login.php");
       }
